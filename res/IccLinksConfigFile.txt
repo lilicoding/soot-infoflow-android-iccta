@@ -1,0 +1,3 @@
+# MethodSignature [line-number] DestinationComponent {line-number,line-number}
+
+lu.uni.serval.icc_sendBroadcast1: <lu.uni.serval.icc_sendBroadcast1.OutFlowActivity: void onCreate(android.os.Bundle)> [12] lu.uni.serval.icc_sendBroadcast1.InFlowReceiver {12}

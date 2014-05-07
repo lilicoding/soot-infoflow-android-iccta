@@ -1,0 +1,20 @@
+1. customize the format of output
+	1) we need the result.
+	2) it's good to count or analyze the result manually.
+	
+	All result number, potential leaks (start), potential leaks (end), real leaks, ICC result number, ICC potential leaks ICC realleaks
+	
+	
+	1000 app's result
+
+2. To split the process to three steps:
+	2.1) reduce the un-real ICC links (removedComponent configuration, un-exported, permission-protected, uri, data/type)
+	2.2) instrumenting
+	2.3) comment all the ICC methods joining to redirect.
+
+3. specifically tackle bindService
+
+4. anonymous problem (bindService for instance)
+
+
+Apkpler, with a lot of transfer (each transfer as a plugin for Apkpler)
