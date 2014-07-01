@@ -1,5 +1,7 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
+=======
+IccTA
+=====
+
 IccTA: An Inter-Component Communication based Taint Analysis Tool
 
 The simple guide to run the source code of IccTA.
@@ -22,16 +24,3 @@ An example is shown as follows:
 
 * Please note that there are some hard-code in the execution script when you launch Epicc or IC3.
 * And before launch IccTA, check the configuration files under 'res' directory to custom appreciate parameters.
-=======
-IccTA
-=====
-
-The source code of IccTA will be eventurally open source in this project.
-
-For simple usage of IccTA, please refer https://sites.google.com/site/icctawebpage/usage-of-iccta.
-The more details will come soon.
->>>>>>> c948859639279d4f88aee837a05a6e046e5cb2b8
-=======
-soot-infoflow-android-iccta
-===========================
->>>>>>> df191d1edcdc42bca2ffc14a5bdad38fbc946dd6
