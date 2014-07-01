@@ -21,6 +21,7 @@ import org.jdom2.input.SAXBuilder;
 import soot.jimple.infoflow.android.iccta.AndroidIPCManager;
 import soot.jimple.infoflow.android.iccta.ExtraExtractor;
 import soot.jimple.infoflow.android.iccta.IccTAPrintStream;
+import soot.jimple.infoflow.android.iccta.JimpleIndexNumberTransformer;
 import soot.jimple.infoflow.android.iccta.db.DB;
 import soot.jimple.infoflow.android.iccta.stat.LinkDBHelper;
 import soot.jimple.infoflow.android.iccta.stat.Statistics;
@@ -78,6 +79,8 @@ public class Test {
 			}
 			
 			ipcManager.setIccProvider(iccProviderStr);
+			JimpleIndexNumberTransformer jinTransformer = new JimpleIndexNumberTransformer();
+			ipcManager.addJimpleUpdater(jinTransformer);
 			ExtraExtractor extraExtractor = new ExtraExtractor();
 			ipcManager.addJimpleUpdater(extraExtractor);
 			
