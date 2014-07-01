@@ -1,0 +1,7 @@
+release/sootOutput
+release/testapks
+release/testspace
+
+.classpath
+.project
+.settings

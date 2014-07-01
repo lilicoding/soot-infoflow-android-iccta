@@ -1,0 +1,275 @@
+DROP TABLE IF EXISTS `Links`;
+DROP TABLE IF EXISTS `IFCategories`;
+DROP TABLE IF EXISTS `IFActions`;
+DROP TABLE IF EXISTS `IFMimeTypes`;
+DROP TABLE IF EXISTS `MissedIntentFilters`;
+DROP TABLE IF EXISTS `IntentFilters`;
+DROP TABLE IF EXISTS `Aliases`;
+DROP TABLE IF EXISTS `Components`;
+DROP TABLE IF EXISTS `ICategories`;
+DROP TABLE IF EXISTS `IActions`;
+DROP TABLE IF EXISTS `IMimeTypes`;
+DROP TABLE IF EXISTS `IExtras`;
+DROP TABLE IF EXISTS `MissedIntents`;
+DROP TABLE IF EXISTS `Intents`;
+DROP TABLE IF EXISTS `IntentPermissions`;
+DROP TABLE IF EXISTS `ExitPoints`;
+DROP TABLE IF EXISTS `CategoryStrings`;
+DROP TABLE IF EXISTS `ActionStrings`;
+DROP TABLE IF EXISTS `Classes`;
+DROP TABLE IF EXISTS `UsesPermissions`;
+DROP TABLE IF EXISTS `Permissions`;
+DROP TABLE IF EXISTS `PermissionStrings`;
+DROP TABLE IF EXISTS `Applications`;
+DROP TABLE IF EXISTS `appInfo`;
+DROP TABLE IF EXISTS `appLeak`;
+
+
+--
+-- Common.
+--
+
+CREATE TABLE `appInfo` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(512) NOT NULL,
+  `md5` varchar(512) NOT NULL,
+  `classes_size` int DEFAULT NULL,
+  `filename` varchar(512) NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `appLeak` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `app_id` int NOT NULL,
+  `pl_end_with_outflow` int DEFAULT NULL,
+  `pl_start_with_inflow` int DEFAULT NULL,
+  `privacy_leak` int DEFAULT NULL,
+  `privacy_icc_leak` int DEFAULT NULL,
+  PRIMARY KEY (`id`) 
+);
+
+
+
+CREATE TABLE `Applications` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `app` varchar(512) NOT NULL,
+  `version` int DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `PermissionStrings` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `st` varchar(512) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `st_idx` (`st`) USING HASH
+);
+
+--
+-- Using the level column in the primary key allows us to handle the case where 
+-- the same permission is defined in several applications.
+--
+CREATE TABLE `Permissions` (
+  `id` int NOT NULL,
+  `level` char NOT NULL,
+  PRIMARY KEY (`id`, `level`),
+  FOREIGN KEY (`id`) REFERENCES PermissionStrings(`id`)
+);
+
+CREATE TABLE `UsesPermissions` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `app_id` int NOT NULL,
+  `uses_permission` int NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`app_id`) REFERENCES Applications(`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`uses_permission`) REFERENCES PermissionStrings(`id`),
+  INDEX `uses_permission_idx` (`uses_permission`) USING HASH
+);
+
+CREATE TABLE `Classes` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `app_id` int NOT NULL,
+  `class` varchar(512) NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`app_id`) REFERENCES Applications(`id`) ON DELETE CASCADE,
+  INDEX `class_idx` (`class`) USING HASH,
+  INDEX `app_id_idx` (`app_id`) USING HASH
+);
+
+CREATE TABLE `ActionStrings` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `st` varchar(512) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `st_idx` (`st`) USING HASH
+);
+
+CREATE TABLE `CategoryStrings` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `st` varchar(512) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `st_idx` (`st`) USING HASH
+);
+
+
+--
+-- Entry points.
+--
+
+CREATE TABLE `Components` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `class_id` int NOT NULL,
+  `kind` char NOT NULL,
+  `exported` bool NOT NULL,
+  `permission` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`class_id`) REFERENCES Classes(`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`permission`) REFERENCES PermissionStrings(`id`)
+);
+
+CREATE TABLE `Aliases` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `component_id` int NOT NULL,
+  `target_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`component_id`) REFERENCES Components(`id`),
+  FOREIGN KEY (`target_id`) REFERENCES Components(`id`)
+);
+
+CREATE TABLE `IntentFilters` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `component_id` int NOT NULL,
+  `alias` bool NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`component_id`) REFERENCES Components(`id`) ON DELETE CASCADE,
+  INDEX `c_id_idx` (`component_id`) USING HASH
+);
+
+CREATE TABLE `MissedIntentFilters` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `component_id` int NOT NULL,
+  `count` int,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`component_id`) REFERENCES Components(`id`) ON DELETE CASCADE
+);
+
+CREATE TABLE `IFActions` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `filter_id` int NOT NULL,
+  `action` int NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`filter_id`) REFERENCES IntentFilters(`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`action`) REFERENCES ActionStrings(`id`),
+  INDEX `action_idx` (`action`) USING HASH
+);
+
+CREATE TABLE `IFCategories` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `filter_id` int NOT NULL,
+  `category` int NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`filter_id`) REFERENCES IntentFilters(`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`category`) REFERENCES CategoryStrings(`id`),
+  INDEX `category_idx` (`category`) USING HASH
+);
+
+CREATE TABLE `IFMimeTypes` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `filter_id` int NOT NULL,
+  `type` varchar(512) NOT NULL,
+  `subtype` varchar(512) NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`filter_id`) REFERENCES IntentFilters(`id`) ON DELETE CASCADE,
+  INDEX `type_idx` (`type`, `subtype`)
+);
+
+
+--
+-- Exit Points.
+--
+
+CREATE TABLE `ExitPoints` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `class_id` int NOT NULL,
+  `method` varchar(512) NOT NULL,
+  `instruction` mediumint NOT NULL,
+  `exit_kind` char NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`class_id`) REFERENCES Classes(`id`) ON DELETE CASCADE
+);
+
+CREATE TABLE `IntentPermissions` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `exit_id` int NOT NULL,
+  `i_permission` int NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`exit_id`) REFERENCES ExitPoints(`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`i_permission`) REFERENCES PermissionStrings(`id`)
+);
+
+CREATE TABLE `Intents` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `exit_id` int NOT NULL,
+  `implicit` bool NOT NULL,
+  `alias` bool NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`exit_id`) REFERENCES ExitPoints(`id`) ON DELETE CASCADE
+);
+
+CREATE TABLE `MissedIntents` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `exit_id` int NOT NULL,
+  `count` int,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`exit_id`) REFERENCES ExitPoints(`id`) ON DELETE CASCADE
+);
+
+CREATE TABLE `IActions` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `intent_id` int NOT NULL,
+  `action` int NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`intent_id`) REFERENCES Intents(`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`action`) REFERENCES ActionStrings(`id`)
+);
+
+CREATE TABLE `ICategories` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `intent_id` int NOT NULL,
+  `category` int NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`intent_id`) REFERENCES Intents(`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`category`) REFERENCES CategoryStrings(`id`)
+);
+
+CREATE TABLE `IMimeTypes` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `intent_id` int NOT NULL,
+  `type` varchar(512) NOT NULL,
+  `subtype` varchar(512) NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`intent_id`) REFERENCES Intents(`id`) ON DELETE CASCADE,
+  INDEX `type_idx` (`type`),
+  INDEX `subtype_idx` (`subtype`)
+);
+
+CREATE TABLE `IExtras` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `intent_id` int NOT NULL,
+  `extra` varchar(512) NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`intent_id`) REFERENCES Intents(`id`) ON DELETE CASCADE
+);
+
+
+--
+-- Links
+--
+
+CREATE TABLE `Links` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `intent_id` int NOT NULL,
+  `component_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`intent_id`) REFERENCES Intents(`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`component_id`) REFERENCES Components(`id`) ON DELETE CASCADE,
+  INDEX `global_idx` (`intent_id`, `component_id`)
+);
