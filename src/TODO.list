@@ -1,0 +1,3 @@
+* Icc Method points to multiple destination components
+
+refactor the db code to Athena and remove the dependences for DBName, provider interface for get DBName

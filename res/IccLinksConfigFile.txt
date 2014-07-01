@@ -1,0 +1,4 @@
+# Package name: MethodSignature [line-number] DestinationComponent {line-number1,line-number2}
+
+lu.uni.serval.icc_sendBroadcast1: <lu.uni.serval.icc_sendBroadcast1.OutFlowActivity: void onCreate(android.os.Bundle)> [12-r] lu.uni.serval.icc_sendBroadcast1.InFlowReceiver {12}
+lu.uni.serval.icc_insert1: <lu.uni.serval.icc_insert1.OutFlowActivity: void onCreate(android.os.Bundle)> [13-p] lu.uni.serval.icc_insert1.InFlowProvider {13}

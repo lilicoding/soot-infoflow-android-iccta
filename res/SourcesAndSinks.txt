@@ -1,0 +1,159 @@
+<android.location.Location: double getLatitude()> -> _SOURCE_
+<android.location.Location: double getLongitude()> -> _SOURCE_
+
+<android.telephony.TelephonyManager: java.lang.String getDeviceId()> android.permission.READ_PHONE_STATE -> _SOURCE_
+<android.telephony.TelephonyManager: java.lang.String getSubscriberId()> android.permission.READ_PHONE_STATE -> _SOURCE_
+<android.telephony.TelephonyManager: java.lang.String getSimSerialNumber()> android.permission.READ_PHONE_STATE -> _SOURCE_
+<android.telephony.TelephonyManager: java.lang.String getLine1Number()> android.permission.READ_PHONE_STATE -> _SOURCE_
+
+<java.net.URLConnection: java.io.OutputStream getOutputStream()> -> _SOURCE_
+<java.net.URLConnection: java.io.InputStream getInputStream()> -> _SOURCE_
+
+<org.apache.http.HttpResponse: org.apache.http.HttpEntity getEntity()> -> _SOURCE_
+<org.apache.http.util.EntityUtils: java.lang.String toString(org.apache.http.HttpEntity)> -> _SOURCE_
+<org.apache.http.util.EntityUtils: java.lang.String toString(org.apache.http.HttpEntity,java.lang.String)> -> _SOURCE_
+<org.apache.http.util.EntityUtils: byte[] toByteArray(org.apache.http.HttpEntity)> -> _SOURCE_
+<org.apache.http.util.EntityUtils: java.lang.String getContentCharSet(org.apache.http.HttpEntity)> -> _SOURCE_
+
+<org.apache.http.message.BasicNameValuePair: void <init>(java.lang.String,java.lang.String)> -> _SINK_
+
+<android.media.AudioRecord: int read(short[],int,int)> -> _SOURCE_
+<android.media.AudioRecord: int read(byte[],int,int)> -> _SOURCE_
+<android.media.AudioRecord: int read(java.nio.ByteBuffer,int)> -> _SOURCE_
+<android.location.LocationManager: android.location.Location getLastKnownLocation(java.lang.String)> -> _SOURCE_
+<android.content.pm.PackageManager: java.util.List getInstalledApplications(int)> -> _SOURCE_
+<android.content.pm.PackageManager: java.util.List getInstalledPackages(int)> -> _SOURCE_
+<android.content.pm.PackageManager: java.util.List queryIntentActivities(android.content.Intent,int)> -> _SOURCE_
+<android.content.pm.PackageManager: java.util.List queryIntentServices(android.content.Intent,int)> -> _SOURCE_
+<android.content.pm.PackageManager: java.util.List queryBroadcastReceivers(android.content.Intent,int)> -> _SOURCE_
+<android.content.pm.PackageManager: java.util.List queryContentProviders(java.lang.String,int,int)> -> _SOURCE_
+
+<android.os.Handler: android.os.Message obtainMessage()> -> _SOURCE_
+<android.os.Handler: android.os.Message obtainMessage(int,int,int)> -> _SOURCE_
+<android.os.Handler: android.os.Message obtainMessage(int,int,int,java.lang.Object)> -> _SOURCE_
+<android.os.Handler: android.os.Message obtainMessage(int)> -> _SOURCE_
+<android.os.Handler: android.os.Message obtainMessage(int,java.lang.Object)> -> _SOURCE_
+
+<android.util.Log: int d(java.lang.String,java.lang.String)> -> _SINK_
+<android.util.Log: int d(java.lang.String,java.lang.String,java.lang.Throwable)> -> _SINK_
+<android.util.Log: int e(java.lang.String,java.lang.String)> -> _SINK_
+<android.util.Log: int e(java.lang.String,java.lang.String,java.lang.Throwable)> -> _SINK_
+<android.util.Log: int i(java.lang.String,java.lang.String)> -> _SINK_
+<android.util.Log: int i(java.lang.String,java.lang.String,java.lang.Throwable)> -> _SINK_
+<android.util.Log: int v(java.lang.String,java.lang.String)> -> _SINK_
+<android.util.Log: int v(java.lang.String,java.lang.String,java.lang.Throwable)> -> _SINK_
+<android.util.Log: int w(java.lang.String,java.lang.Throwable)> -> _SINK_
+<android.util.Log: int w(java.lang.String,java.lang.String)> -> _SINK_
+<android.util.Log: int w(java.lang.String,java.lang.String,java.lang.Throwable)> -> _SINK_
+<android.util.Log: int wtf(java.lang.String,java.lang.Throwable)> -> _SINK_
+<android.util.Log: int wtf(java.lang.String,java.lang.String)> -> _SINK_
+<android.util.Log: int wtf(java.lang.String,java.lang.String,java.lang.Throwable)> -> _SINK_
+
+<java.io.OutputStream: void write(byte[])> -> _SINK_
+<java.io.OutputStream: void write(byte[],int,int)> -> _SINK_
+<java.io.OutputStream: void write(int)> -> _SINK_
+
+<java.io.FileOutputStream: void write(byte[])> -> _SINK_
+<java.io.FileOutputStream: void write(byte[],int,int)> -> _SINK_
+<java.io.FileOutputStream: void write(int)> -> _SINK_
+
+<java.io.Writer: void write(char[])> -> _SINK_
+<java.io.Writer: void write(char[],int,int)> -> _SINK_
+<java.io.Writer: void write(int)> -> _SINK_
+<java.io.Writer: void write(java.lang.String)> -> _SINK_
+<java.io.Writer: void write(java.lang.String,int,int)> -> _SINK_
+
+<java.net.URL: void set(java.lang.String,java.lang.String,int,java.lang.String,java.lang.String)> -> _SINK_
+<java.net.URL: void set(java.lang.String,java.lang.String,int,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String)> -> _SINK_
+
+<java.net.URLConnection: void setRequestProperty(java.lang.String,java.lang.String)> -> _SINK_
+
+<android.media.MediaRecorder: void setVideoSource(int)> -> _SINK_
+<android.media.MediaRecorder: void setPreviewDisplay(android.view.Surface)> -> _SINK_
+<android.media.MediaRecorder: void start()> -> _SINK_
+
+<android.content.Context: android.content.Intent registerReceiver(android.content.BroadcastReceiver,android.content.IntentFilter)> -> _SINK_
+<android.content.Context: android.content.Intent registerReceiver(android.content.BroadcastReceiver,android.content.IntentFilter,java.lang.String,android.os.Handler)> -> _SINK_
+
+<android.telephony.SmsManager: void sendTextMessage(java.lang.String,java.lang.String,java.lang.String,android.app.PendingIntent,android.app.PendingIntent)> android.permission.SEND_SMS -> _SINK_ 
+<android.telephony.SmsManager: void sendDataMessage(java.lang.String,java.lang.String,short,byte[],android.app.PendingIntent,android.app.PendingIntent)> android.permission.SEND_SMS -> _SINK_ 
+<android.telephony.SmsManager: void sendMultipartTextMessage(java.lang.String,java.lang.String,java.util.ArrayList,java.util.ArrayList,java.util.ArrayList)> android.permission.SEND_SMS -> _SINK_ 
+<java.net.Socket: void connect(java.net.SocketAddress)> -> _SINK_
+<android.os.Handler: boolean sendMessage(android.os.Message)> -> _SINK_
+<android.content.SharedPreferences$Editor: android.content.SharedPreferences$Editor putBoolean(java.lang.String,boolean)> -> _SINK_
+<android.content.SharedPreferences$Editor: android.content.SharedPreferences$Editor putFloat(java.lang.String,float)> -> _SINK_
+<android.content.SharedPreferences$Editor: android.content.SharedPreferences$Editor putInt(java.lang.String,int)> -> _SINK_
+<android.content.SharedPreferences$Editor: android.content.SharedPreferences$Editor putLong(java.lang.String,long)> -> _SINK_
+<android.content.SharedPreferences$Editor: android.content.SharedPreferences$Editor putString(java.lang.String,java.lang.String)> -> _SINK_
+
+<android.bluetooth.BluetoothAdapter: java.lang.String getAddress()> -> _SOURCE_
+<android.net.wifi.WifiInfo: java.lang.String: getMacAddress()> -> _SOURCE_
+<java.util.Locale: java.lang.String getCountry()> -> _SOURCE_
+<android.net.wifi.WifiInfo: java.lang.String getSSID()> -> _SOURCE_
+<android.telephony.gsm.GsmCellLocation: int getCid()> -> _SOURCE_
+<android.telephony.gsm.GsmCellLocation: int getLac()> -> _SOURCE_
+<android.location.Location: double getLongitude()> -> _SOURCE_
+<android.location.Location: double getLatitude()> -> _SOURCE_
+<android.accounts.AccountManager: android.accounts.Account[] getAccounts()> -> _SOURCE_
+<java.util.Calendar: java.util.TimeZone getTimeZone()> -> _SOURCE_
+<android.provider.Browser: android.database.Cursor getAllBookmarks()> -> _SOURCE_
+<android.provider.Browser: android.database.Cursor getAllVisitedUrls()> -> _SOURCE_
+<java.net.URL: java.net.URLConnection openConnection()> -> _SOURCE_
+
+<org.apache.http.impl.client.DefaultHttpClient: org.apache.http.HttpResponse execute(org.apache.http.client.methods.HttpUriRequest)> -> _SINK_
+<org.apache.http.client.HttpClient: org.apache.http.HttpResponse execute(org.apache.http.client.methods.HttpUriRequest)> -> _SINK_
+
+<android.content.ContentResolver: android.database.Cursor query(android.net.Uri,java.lang.String[],java.lang.String,java.lang.String[],java.lang.String)> -> _SOURCE_
+<android.content.ContentResolver: android.database.Cursor query(android.net.Uri,java.lang.String[],java.lang.String,java.lang.String[],java.lang.String,android.os.CancellationSignal)> -> _SOURCE_
+
+<java.net.URL: void <init>(java.lang.String,java.lang.String,int,java.lang.String)> -> _SINK_
+<java.net.URL: void <init>(java.lang.String,java.lang.String,java.lang.String)> -> _SINK_
+<java.net.URL: void <init>(java.lang.String,java.lang.String,int,java.lang.String,java.net.URLStreamHandler)> -> _SINK_
+<java.net.URL: void <init>(java.lang.String)> -> _SINK_
+<java.net.URL: void <init>(java.net.URL,java.lang.String)> -> _SINK_
+<java.net.URL: void <init>(java.net.URL,java.lang.String,java.net.URLStreamHandler)> -> _SINK_
+
+
+<android.content.Context: void startActivity(android.content.Intent)> -> _SINK_
+<android.content.Context: void startActivity(android.content.Intent,android.os.Bundle)> -> _SINK_
+<android.content.Context: void startActivities(android.content.Intent[])> -> _SINK_
+<android.content.Context: void startActivities(android.content.Intent[],android.os.Bundle)> -> _SINK_
+<android.content.Context: android.content.ComponentName startService(android.content.Intent)> -> _SINK_
+<android.content.Context: boolean bindService(android.content.Intent,android.content.ServiceConnection,int)> -> _SINK_
+<android.content.Context: void sendBroadcast(android.content.Intent)> -> _SINK_
+<android.content.Context: void sendBroadcast(android.content.Intent,java.lang.String)> -> _SINK_
+
+<android.app.Activity: android.content.Intent getIntent()> -> _SOURCE_
+<android.app.Activity: void setResult(int,android.content.Intent)> -> _SINK_
+<android.app.Activity: void onActivityResult(int,int,android.content.Intent)> -> _SOURCE_
+<android.app.Activity: void startActivity(android.content.Intent)> -> _SINK_
+<android.app.Activity: void startActivity(android.content.Intent,android.os.Bundle)> -> _SINK_
+<android.app.Activity: void startActivities(android.content.Intent[])> -> _SINK_
+<android.app.Activity: void startActivities(android.content.Intent[],android.os.Bundle)> -> _SINK_
+<android.app.Activity: void startActivityForResult(android.content.Intent,int)> -> _SINK_
+<android.app.Activity: void startActivityForResult(android.content.Intent,int,android.os.Bundle)> -> _SINK_
+<android.app.Activity: void startActivityFromChild(android.app.Activity,android.content.Intent,int,android.os.Bundle)> -> _SINK_
+<android.app.Activity: void startActivityFromChild(android.app.Activity,android.content.Intent,int)> -> _SINK_
+<android.app.Activity: void startActivityFromFragment(android.app.Fragment,android.content.Intent,int,android.os.Bundle)> -> _SINK_
+<android.app.Activity: void startActivityFromFragment(android.app.Fragment,android.content.Intent,int)> -> _SINK_
+<android.app.Activity: void startActivityIfNeeded(android.content.Intent,int,android.os.Bundle)> -> _SINK_
+<android.app.Activity: void startActivityIfNeeded(android.content.Intent,int)> -> _SINK_
+<android.app.Activity: android.content.ComponentName startService(android.content.Intent)> -> _SINK_
+<android.app.Activity: boolean bindService(android.content.Intent,android.content.ServiceConnection,int)> -> _SINK_
+<android.app.Activity: void sendBroadcast(android.content.Intent)> -> _SINK_
+<android.app.Activity: void sendBroadcast(android.content.Intent,java.lang.String)> -> _SINK_
+<android.app.Activity: void sendBroadcastAsUser(android.content.Intent,android.os.UserHandle)> -> _SINK_
+<android.app.Activity: void sendBroadcastAsUser(android.content.Intent,android.os.UserHandle,java.lang.String)> -> _SINK_
+<android.app.Activity: void sendOrderedBroadcast(android.content.Intent,java.lang.String,android.content.BroadcastReceiver,android.os.Handler,int,java.lang.String,android.os.Bundle)> -> _SINK_
+<android.app.Activity: void sendOrderedBroadcast(android.content.Intent,java.lang.String)> -> _SINK_
+<android.app.Activity: void sendOrderedBroadcastAsUser(android.content.Intent,android.os.UserHandle,java.lang.String,android.content.BroadcastReceiver,android.os.Handler,int,java.lang.String,android.os.Bundle)> -> _SINK_
+<android.app.Activity: void sendStickyBroadcast(android.content.Intent)> -> _SINK_
+<android.app.Activity: void sendStickyBroadcastAsUser(android.content.Intent,android.os.UserHandle)> -> _SINK_
+<android.app.Activity: void sendStickyOrderedBroadcast(android.content.Intent,android.content.BroadcastReceiver,android.os.Handler,int,java.lang.String,android.os.Bundle)> -> _SINK_
+<android.app.Activity: void sendStickyOrderedBroadcastAsUser(android.content.Intent,android.os.UserHandle,android.content.BroadcastReceiver,android.os.Handler,int,java.lang.String,android.os.Bundle)> -> _SINK_
+
+<android.content.ContentResolver: android.net.Uri insert(android.net.Uri,android.content.ContentValues)> -> _SINK_
+<android.content.ContentResolver: int delete(android.net.Uri,java.lang.String,java.lang.String[])> -> _SINK_
+<android.content.ContentResolver: int update(android.net.Uri,android.content.ContentValues,java.lang.String,java.lang.String[])> -> _SINK_
+<android.content.ContentResolver: android.database.Cursor query(android.net.Uri,java.lang.String[],java.lang.String,java.lang.String[],java.lang.String)> -> _SINK_
+<android.content.ContentResolver: android.database.Cursor query(android.net.Uri,java.lang.String[],java.lang.String,java.lang.String[],java.lang.String,android.os.CancellationSignal)> -> _SINK_

@@ -2,6 +2,12 @@ release/sootOutput
 release/testapks
 release/testspace
 
+bin
+iccProvider/ic3
+iccProvider/epicc/output_iccta
+testapks
+testspace
+
 .classpath
 .project
 .settings

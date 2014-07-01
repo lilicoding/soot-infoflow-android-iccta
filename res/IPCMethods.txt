@@ -1,0 +1,34 @@
+# "<method signature>"  "type: receiver or activity or service or provider"  "permission required for argument x"
+
+<android.content.Context: void sendBroadcast(android.content.Intent)>         receiver         -1    
+<android.content.Context: void sendBroadcast(android.content.Intent,java.lang.String)>         receiver         1    
+<android.content.Context: void sendBroadcastAsUser(android.content.Intent,android.os.UserHandle)>         receiver         -1    
+<android.content.Context: void sendBroadcastAsUser(android.content.Intent,android.os.UserHandle,java.lang.String)>         receiver         2    
+<android.content.Context: void sendOrderedBroadcast(android.content.Intent,java.lang.String,android.content.BroadcastReceiver,android.os.Handler,int,java.lang.String,android.os.Bundle)>         receiver         1    
+<android.content.Context: void sendOrderedBroadcast(android.content.Intent,java.lang.String)>         receiver         1    
+<android.content.Context: void sendOrderedBroadcastAsUser(android.content.Intent,android.os.UserHandle,java.lang.String,android.content.BroadcastReceiver,android.os.Handler,int,java.lang.String,android.os.Bundle)>         receiver         2    
+<android.content.Context: void sendStickyBroadcast(android.content.Intent)>         receiver         -1    
+<android.content.Context: void sendStickyBroadcastAsUser(android.content.Intent,android.os.UserHandle)>         receiver         -1    
+<android.content.Context: void sendStickyOrderedBroadcast(android.content.Intent,android.content.BroadcastReceiver,android.os.Handler,int,java.lang.String,android.os.Bundle)>         receiver         -1    
+<android.content.Context: void sendStickyOrderedBroadcastAsUser(android.content.Intent,android.os.UserHandle,android.content.BroadcastReceiver,android.os.Handler,int,java.lang.String,android.os.Bundle)>         receiver         -1    
+<android.content.Context: void startActivities(android.content.Intent[],android.os.Bundle)>         activity         -1    
+<android.content.Context: void startActivities(android.content.Intent[])>         activity         -1    
+<android.content.Context: void startActivity(android.content.Intent)>         activity         -1    
+<android.content.Context: void startActivity(android.content.Intent,android.os.Bundle)>         activity         -1    
+<android.content.Context: void startActivityForResult(android.content.Intent,int)>         activity         -1    
+<android.content.Context: void startActivityForResult(android.content.Intent,int,android.os.Bundle)>         activity         -1    
+<android.content.Context: void startActivityFromChild(android.app.Activity,android.content.Intent,int,android.os.Bundle)>         activity         -1    
+<android.content.Context: void startActivityFromChild(android.app.Activity,android.content.Intent,int)>         activity         -1    
+<android.content.Context: void startActivityFromFragment(android.app.Fragment,android.content.Intent,int,android.os.Bundle)>         activity         -1    
+<android.content.Context: void startActivityFromFragment(android.app.Fragment,android.content.Intent,int)>         activity         -1    
+<android.content.Context: void startActivityIfNeeded(android.content.Intent,int,android.os.Bundle)>         activity         -1    
+<android.content.Context: void startActivityIfNeeded(android.content.Intent,int)>         activity         -1    
+<android.content.Context: android.content.ComponentName startService(android.content.Intent)>         service         -1    
+<android.content.Context: boolean bindService(android.content.Intent,android.content.ServiceConnection,int)>         service         -1    
+
+# ContentResolver 
+<android.content.ContentResolver: android.net.Uri insert(android.net.Uri,android.content.ContentValues)>	provider	-1
+<android.content.ContentResolver: int delete(android.net.Uri,java.lang.String,java.lang.String[])> 	provider	-1
+<android.content.ContentResolver: int update(android.net.Uri,android.content.ContentValues,java.lang.String,java.lang.String[])>	provider	-1
+<android.content.ContentResolver: android.database.Cursor query(android.net.Uri,java.lang.String[],java.lang.String,java.lang.String[],java.lang.String)>	provider	-1
+<android.content.ContentResolver: android.database.Cursor query(android.net.Uri,java.lang.String[],java.lang.String,java.lang.String[],java.lang.String,android.os.CancellationSignal)>	provider	-1
