@@ -412,6 +412,8 @@ public class StatDBHelper
 				String compName = null;
 				try
 				{
+					System.out.println("");
+					
 					while (rs.next())
 					{
 						compName = rs.getString(1);
@@ -421,6 +423,12 @@ public class StatDBHelper
 				{
 					ex.printStackTrace();
 				}
+				
+				if (compName == null)
+				{
+					return compName;
+				}
+				
 				
 				return compName.replace("/", ".");
 			}
