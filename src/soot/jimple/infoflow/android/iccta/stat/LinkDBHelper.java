@@ -55,7 +55,7 @@ public class LinkDBHelper
 						LinkDB linkDB = new LinkDB();
 						linkDB.setIntent_id(intentDB.getIntentid());
 						linkDB.setComponent_id(id);
-						linkDB.setType(5);
+						linkDB.setType(0);
 						
 						if (existLink(linkDB.getIntent_id(), linkDB.getComponent_id()))
 						{

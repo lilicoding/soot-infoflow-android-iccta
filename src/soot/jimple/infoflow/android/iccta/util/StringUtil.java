@@ -6,10 +6,10 @@ public class StringUtil {
 	{
 		if (str != null && !str.isEmpty())
 		{
-			return true;
+			return false;
 		}
 
-		return false;
+		return true;
 	}
 
 }

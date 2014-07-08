@@ -19,10 +19,11 @@ import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
 
 import soot.jimple.infoflow.android.iccta.AndroidIPCManager;
-import soot.jimple.infoflow.android.iccta.ExtraExtractor;
 import soot.jimple.infoflow.android.iccta.IccTAPrintStream;
-import soot.jimple.infoflow.android.iccta.JimpleIndexNumberTransformer;
 import soot.jimple.infoflow.android.iccta.db.DB;
+import soot.jimple.infoflow.android.iccta.jimpleupdater.ExtraExtractor;
+import soot.jimple.infoflow.android.iccta.jimpleupdater.InfoStatistic;
+import soot.jimple.infoflow.android.iccta.jimpleupdater.JimpleIndexNumberTransformer;
 import soot.jimple.infoflow.android.iccta.stat.LinkDBHelper;
 import soot.jimple.infoflow.android.iccta.stat.Statistics;
 import soot.jimple.infoflow.android.iccta.todb.ToDBResultHelper;
@@ -79,6 +80,13 @@ public class Test {
 			}
 			
 			ipcManager.setIccProvider(iccProviderStr);
+			
+			InfoStatistic mostBeginning = new InfoStatistic("Beginning");
+			ipcManager.addJimpleUpdater(mostBeginning);
+			
+			InfoStatistic mostEnding = new InfoStatistic("Ending");
+			ipcManager.addPostJimpleUpdater(mostEnding);
+			
 			JimpleIndexNumberTransformer jinTransformer = new JimpleIndexNumberTransformer();
 			ipcManager.addJimpleUpdater(jinTransformer);
 			ExtraExtractor extraExtractor = new ExtraExtractor();

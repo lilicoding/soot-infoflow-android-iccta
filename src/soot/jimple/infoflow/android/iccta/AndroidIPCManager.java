@@ -14,6 +14,7 @@ import soot.jimple.infoflow.android.iccta.icc.ICCLink;
 import soot.jimple.infoflow.android.iccta.icc.ICCLinksConfigFileProvider;
 import soot.jimple.infoflow.android.iccta.icc.ICCLinksEpiccProvider;
 import soot.jimple.infoflow.android.iccta.icc.IICCLinksProvider;
+import soot.jimple.infoflow.android.iccta.jimpleupdater.JimpleUpdater;
 import soot.jimple.infoflow.android.iccta.util.ICCMethodHelper;
 import soot.jimple.infoflow.ipc.MethodBasedIPCManager;
 
@@ -26,6 +27,7 @@ public class AndroidIPCManager extends MethodBasedIPCManager {
     private String iccProviderStr = null;
     
     private List<JimpleUpdater> jimpleUpdaters = new ArrayList<JimpleUpdater>();
+    private List<JimpleUpdater> postJimpleUpdaters = new ArrayList<JimpleUpdater>();
     
     public AndroidIPCManager(Set<AndroidMethod> ipcAMethods,
             String appPackageName) {
@@ -51,6 +53,11 @@ public class AndroidIPCManager extends MethodBasedIPCManager {
     public void addJimpleUpdater(JimpleUpdater jimpleUpdater)
     {
     	this.jimpleUpdaters.add(jimpleUpdater);
+    }
+    
+    public void addPostJimpleUpdater(JimpleUpdater jimpleUpdater)
+    {
+    	this.postJimpleUpdaters.add(jimpleUpdater);
     }
     
     public void setIccProvider(String iccProvider) {
@@ -85,11 +92,11 @@ public class AndroidIPCManager extends MethodBasedIPCManager {
     
     
     //disable the option: enableCallbackSources for AndroidSourceSinkManager
-    @Override
+    /*@Override
 	public boolean enableCallbackSources() 
     {
 		return false;
-	}
+	}*/
 
 	public Set<AndroidMethod> getIPCMethods() 
     {
@@ -144,6 +151,10 @@ public class AndroidIPCManager extends MethodBasedIPCManager {
             System.exit(-1);
         }
 
+        for (JimpleUpdater postJimpleUpdater : postJimpleUpdaters)
+    	{
+        	postJimpleUpdater.updateJimple();
+    	}
     }
 
     public List<ICCLink> preProcess(List<ICCLink> links)

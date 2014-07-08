@@ -3,22 +3,22 @@ package soot.jimple.infoflow.android.iccta.stat;
 public class DataAndType 
 {
 	//: <scheme>://<host>:<port>/[<path>|<pathPrefix>|<pathPattern>]
-	private String scheme;
-	private String path;
+	private String scheme = "";
+	private String path = "";
 	
 	//IntentFilter
-	private String host;
-	private String port;
+	private String host = "";
+	private String port = "";
 	
 	//Intent
-	private String ssp;
-	private String uri;
-	private String query;
-	private String authority;
+	private String ssp = "";
+	private String uri = "";
+	private String query = "";
+	private String authority = "";
 	
 	//: MimeType
-	private String type;
-	private String subtype;
+	private String type = "";
+	private String subtype = "";
 
 	private String indentStr = "    ";
 	
