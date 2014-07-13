@@ -5,29 +5,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import soot.jimple.infoflow.android.iccta.db.DB;
 import soot.jimple.infoflow.android.iccta.db.DBAdapter;
+import soot.jimple.infoflow.android.iccta.links.DefaultMatchAlgo;
 import soot.jimple.infoflow.android.iccta.util.Constants;
-import android.content.Intent;
-import android.content.IntentFilter;
 
 @SuppressWarnings("unchecked")
 public class LinkDBHelper 
 {
-	public static void main(String[] args)
-	{
-		
-		DB.setJdbcPath("res/jdbc.xml");
-		//com.example.icctest
-		List<ComponentDB> compDBs = StatDBHelper.fetchComponents(null);
-		for (ComponentDB comp : compDBs)
-		{
-			System.out.println(comp);
-		}
-		
-		buildLinks();
-	}
-	
+
 	/*
 	 * 1: only action and categories
 	 * 2: 1 + mimetype
@@ -35,6 +20,7 @@ public class LinkDBHelper
 	 */
 	public static int INTENT_MATCH_LEVEL = 3;
 	
+	/*
 	public static void buildLinks()
 	{
 		List<ComponentDB> compDBs = StatDBHelper.fetchComponents(null);
@@ -64,7 +50,8 @@ public class LinkDBHelper
 						}
 						
 						try {
-							DB.executeUpdate(Constants.TABLE_NAME_LINKS, linkDB, Constants.DB_NAME);
+							System.out.println("link from intent id " + linkDB.getIntent_id() + " to component id " + linkDB.getComponent_id());
+							//DB.executeUpdate(Constants.TABLE_NAME_LINKS, linkDB, Constants.DB_NAME);
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -91,7 +78,7 @@ public class LinkDBHelper
 					
 					for (IntentFilterDB filterDB : filterDBs)
 					{
-						if (match(intentDB, filterDB) > 0)
+						if (match(intentDB, filterDB))
 						{
 							LinkDB linkDB = new LinkDB();
 							linkDB.setIntent_id(intentDB.getIntentid());
@@ -104,9 +91,31 @@ public class LinkDBHelper
 							}
 							
 							try {
-								DB.executeUpdate(Constants.TABLE_NAME_LINKS, linkDB, Constants.DB_NAME);
+								System.out.println("link from intent id " + linkDB.getIntent_id() + " to component id " + linkDB.getComponent_id());
+								//DB.executeUpdate(Constants.TABLE_NAME_LINKS, linkDB, Constants.DB_NAME);
 							} catch (Exception e) {
 								e.printStackTrace();
+							}
+						}
+					}
+					
+					if (! StringUtil.isEmpty(comp2.getContentProviderAuthority()))
+					{
+						for (String uri : comp.getContentResolverURIs())
+						{
+							if (uri.contains("://"))
+							{
+								int startPos = uri.indexOf(":") + 2;
+								int endPos = uri.indexOf("/", startPos);
+								
+								String authority = uri.substring(startPos, endPos);
+								
+								System.out.println(authority);
+								
+								if (authority.equals(comp2.getContentProviderAuthority()))
+								{
+									System.out.println("link from component id " + comp.getClsName() + " to component id " + comp2.getClsName());
+								}
 							}
 						}
 					}
@@ -115,17 +124,12 @@ public class LinkDBHelper
 		}
 		
 	}
-	
-	public static void setINTENT_MATCH_LEVEL(int iNTENT_MATCH_LEVEL) {
-		INTENT_MATCH_LEVEL = iNTENT_MATCH_LEVEL;
-	}
+	*/
 
-	public static int match(IntentDB intentDB, IntentFilterDB filterDB)
+	public static boolean match(IntentDB intentDB, IntentFilterDB filterDB)
 	{
-		Intent intent = intentDB.toIntent(INTENT_MATCH_LEVEL);
-		IntentFilter filter = filterDB.toIntentFilter(INTENT_MATCH_LEVEL);
-		
-		return filter.match(intent.getAction(), intent.getType(), intent.getScheme(), intent.getData(), intent.getCategories(), "IccTA");
+		DefaultMatchAlgo defaultAlgo = new DefaultMatchAlgo();
+		return defaultAlgo.match(intentDB, filterDB, INTENT_MATCH_LEVEL);
 	}
 	
 	public static List<Integer> getComponentIds(String clsName)
@@ -201,6 +205,46 @@ public class LinkDBHelper
 		try 
 		{
 			rtVal = (Boolean) adapter.executeQuery(sql, new Object[] {intentId, componentId}, Constants.DB_NAME);
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		return rtVal;
+	}
+	
+	public static boolean existProviderLink(int srcComponentId, int destComponentId)
+	{
+		boolean rtVal = false;
+		
+		String sql = "select distinct id from ProviderLinks where src_component_id=? and dest_component_id=?;";
+		
+		DBAdapter adapter = new DBAdapter() 
+		{
+			@Override
+			protected Object processResultSet(ResultSet rs)
+			{
+				boolean isExitLink = false;
+				try
+				{
+					if (rs.next())
+					{
+						isExitLink = true;
+					}
+				}
+				catch (Exception ex)
+				{
+					ex.printStackTrace();
+				}
+				
+				return isExitLink;
+			}
+		};
+		
+		try 
+		{
+			rtVal = (Boolean) adapter.executeQuery(sql, new Object[] {srcComponentId, destComponentId}, Constants.DB_NAME);
 		} 
 		catch (SQLException e) 
 		{

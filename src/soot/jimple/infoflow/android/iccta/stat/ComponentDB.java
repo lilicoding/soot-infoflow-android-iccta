@@ -14,6 +14,11 @@ public class ComponentDB
 	
 	private List<IntentDB> intents = new ArrayList<IntentDB>();
 	private List<IntentFilterDB> intentFilters = new ArrayList<IntentFilterDB>();
+	private List<String> contentResolverURIs = new ArrayList<String>();
+	
+	//1 a, 2 s, 3 r, 4 p
+	private String type = "a";
+	private String contentProviderAuthority = "";
 	
 	@Override
 	public String toString() 
@@ -21,6 +26,7 @@ public class ComponentDB
 		StringBuilder sb = new StringBuilder();
 		
 		sb.append("Application: " + appName + "\n");
+		sb.append("Type: " + type + "\n");
 		sb.append("Class: " + clsName + "\n");
 		sb.append("Exported: " + isExported + "\n");
 		sb.append("ProtectedPermission: " + protectedPermission + "\n");
@@ -66,6 +72,16 @@ public class ComponentDB
 			sb.append(intentFilter.getDataAndType().setIndent(8));
 		}
 		
+		sb.append("ContentResolver URIs: " + "\n");
+		for (int i = 0; i < contentResolverURIs.size(); i++)
+		{
+			sb.append("    URI: " + contentResolverURIs.get(i) + "\n");
+		}
+		if (type.equals("p"))
+		{
+			sb.append("ContentProvider authority: " + contentProviderAuthority + "\n");
+		}
+		
 		return sb.toString();
 	}
 	public int getComponentId() {
@@ -109,5 +125,23 @@ public class ComponentDB
 	}
 	public void setIntentFilters(List<IntentFilterDB> intentFilters) {
 		this.intentFilters = intentFilters;
+	}
+	public List<String> getContentResolverURIs() {
+		return contentResolverURIs;
+	}
+	public void setContentResolverURIs(List<String> contentResolverURIs) {
+		this.contentResolverURIs = contentResolverURIs;
+	}
+	public String getContentProviderAuthority() {
+		return contentProviderAuthority;
+	}
+	public void setContentProviderAuthority(String contentProviderAuthorities) {
+		this.contentProviderAuthority = contentProviderAuthorities;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 }

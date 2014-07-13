@@ -10,6 +10,7 @@ public class Constants
 	public static final String TABLE_NAME_ICCSTMTS = "IccStmts";
 	public static final String TABLE_NAME_EXTRAS = "Extras";
 	public static final String TABLE_NAME_LINKS = "Links";
+	public static final String TABLE_NAME_PROVIDER_LINKS = "ProviderLinks";
 	
 	public static final String STMT_TYPE_NORMAL = "normal";
 	public static final String STMT_TYPE_SOURCE = "source";

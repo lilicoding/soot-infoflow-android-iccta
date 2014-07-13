@@ -1,0 +1,21 @@
+1. Add the support of Content Provider.
+2. write a sophisticate algo to link two components
+
+
+Trouble Shooting:
+
+1. /Users/li.li/Testspace/apps-analyzed/Genome/genome_app75.apk
+
+[IccTA] exception: java.lang.RuntimeException: cannot set active body for phantom class! <com.waps.OffersWebView: void <init>(android.content.Intent)>
+java.lang.RuntimeException: cannot set active body for phantom class! <com.waps.OffersWebView: void <init>(android.content.Intent)>
+	at soot.SootMethod.setActiveBody(SootMethod.java:336)
+	at soot.jimple.infoflow.android.iccta.ICCInstrumentDestination.generateInitMethod(ICCInstrumentDestination.java:183)
+	at soot.jimple.infoflow.android.iccta.ICCInstrumentDestination.instrumentDestination(ICCInstrumentDestination.java:60)
+	at soot.jimple.infoflow.android.iccta.ICCRedirectionCreator.getRedirectMethod(ICCRedirectionCreator.java:89)
+	at soot.jimple.infoflow.android.iccta.ICCRedirectionCreator.redirectToDestination(ICCRedirectionCreator.java:64)
+	at soot.jimple.infoflow.android.iccta.AndroidIPCManager.process(AndroidIPCManager.java:157)
+	at soot.jimple.infoflow.android.iccta.AndroidIPCManager.updateJimpleForICC(AndroidIPCManager.java:137)
+	at soot.jimple.infoflow.Infoflow.computeInfoflow(Infoflow.java:278)
+	at soot.jimple.infoflow.android.SetupApplication.runInfoflow(SetupApplication.java:519)
+	at soot.jimple.infoflow.android.iccta.TestApps.FDHelper.runAnalysis(FDHelper.java:104)
+	at soot.jimple.infoflow.android.iccta.TestApps.Test.main(Test.java:88)

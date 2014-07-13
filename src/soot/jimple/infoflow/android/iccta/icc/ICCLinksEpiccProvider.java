@@ -164,9 +164,72 @@ public class ICCLinksEpiccProvider implements IICCLinksProvider
 			e.printStackTrace();
 		}
 		
+		List<ICCLink> providerLinks = fetchProviderLinks(appNames);
+		links.addAll(providerLinks);
+		
 		return links;
 	}
 
+	public List<ICCLink> fetchProviderLinks(String[] appNames) 
+	{
+		String params = "?";
+		String[] paramValues = new String[appNames.length*2];
+		paramValues[0] = paramValues[appNames.length] = appNames[0];
+		for (int i = 1; i < appNames.length; i++)
+		{
+			params += ",?";
+			paramValues[i] = paramValues[appNames.length+i] = appNames[i];
+		}
+		
+		String sql = "select distinct d.method, d.instruction, d.exit_kind, f.class from Applications a, Classes b, Components c, ExitPoints d, Applications e, Classes f, Components g, ProviderLinks h " +
+					 "where a.id=b.app_id and b.id=c.class_id and b.id=d.class_id and e.id=f.app_id and f.id=g.class_id and c.id=h.src_component_id and g.id=h.dest_component_id and d.exit_kind='p' and a.app in (" + params + ") and e.app in (" + params + ");";
+		
+		final String[] names = appNames;
+		DBAdapter adapter = new DBAdapter() 
+		{
+			@Override
+			protected Object processResultSet(ResultSet rs)
+			{
+				List<ICCLink> links = new ArrayList<ICCLink>();
+				try {
+					while (rs.next())
+					{
+						String fromSMString = rs.getString(1);
+						int instruction = rs.getInt(2);
+						String exitKind = rs.getString(3);
+						String destinationC = rs.getString(4);
+						
+						List<Integer> instructions = fetchInstructions(fromSMString, names);
+						
+						ICCLink link = new ICCLink(fromSMString, instruction, exitKind, destinationC, instructions);
+						links.add(link);
+					}
+				} catch (SQLException e) 
+				{
+					e.printStackTrace();
+				}
+				
+				return links;
+			}
+			
+		};
+		
+		List<ICCLink> links = null;
+		
+		try 
+		{
+			System.out.println(sql);
+			
+			links = (List<ICCLink>) adapter.executeQuery(sql, paramValues, Constants.DB_NAME);
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		return links;
+	}
+	
 	public List<IACLink> fetchIACLinks()
 	{
 		String sql = "select distinct a.app, b.app from " +

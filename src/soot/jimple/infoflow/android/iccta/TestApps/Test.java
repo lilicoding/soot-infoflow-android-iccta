@@ -24,7 +24,7 @@ import soot.jimple.infoflow.android.iccta.db.DB;
 import soot.jimple.infoflow.android.iccta.jimpleupdater.ExtraExtractor;
 import soot.jimple.infoflow.android.iccta.jimpleupdater.InfoStatistic;
 import soot.jimple.infoflow.android.iccta.jimpleupdater.JimpleIndexNumberTransformer;
-import soot.jimple.infoflow.android.iccta.stat.LinkDBHelper;
+import soot.jimple.infoflow.android.iccta.links.ICCLinker;
 import soot.jimple.infoflow.android.iccta.stat.Statistics;
 import soot.jimple.infoflow.android.iccta.todb.ToDBResultHelper;
 import soot.jimple.infoflow.android.iccta.util.Constants;
@@ -50,15 +50,15 @@ public class Test {
 		DB.setJdbcPath("res/jdbc.xml");
 		Constants.DB_NAME = extractDBName("res/jdbc.xml");
 		
-		if (iccProviderStr.equals("ic3"))
-		{
-			LinkDBHelper.buildLinks();
-		}
-		
 		try
 		{
 			ProcessManifest processMan = new ProcessManifest(apkPath);
 			Test.appPackageName = processMan.getPackageName();
+			
+			if (iccProviderStr.equals("ic3"))
+			{
+				ICCLinker.buildLinks(Test.appPackageName);
+			}
 			
 			if (apkPath.contains(APK_COMBINER))
 			{

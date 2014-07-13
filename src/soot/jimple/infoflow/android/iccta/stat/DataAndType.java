@@ -1,5 +1,7 @@
 package soot.jimple.infoflow.android.iccta.stat;
 
+import soot.jimple.infoflow.android.iccta.util.StringUtil;
+
 public class DataAndType 
 {
 	//: <scheme>://<host>:<port>/[<path>|<pathPrefix>|<pathPattern>]
@@ -38,6 +40,45 @@ public class DataAndType
 		if (null != type || null != subtype)
 		{
 			return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean containingNothing()
+	{
+		if (! (null == scheme && 
+				null == path && 
+				null == host && 
+				null == port && 
+				null == ssp &&
+				null == uri &&
+				null == query &&
+				null == authority &&
+				null == type &&
+				null == subtype))
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public boolean containingOnlyMimeType()
+	{
+		if (! (null == scheme && 
+				null == path && 
+				null == host && 
+				null == port && 
+				null == ssp &&
+				null == uri &&
+				null == query &&
+				null == authority))
+		{
+			if (! StringUtil.isEmpty(type) || ! StringUtil.isEmpty(subtype))
+			{
+				return true;
+			}
 		}
 		
 		return false;

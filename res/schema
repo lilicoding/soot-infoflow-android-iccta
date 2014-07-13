@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS `Links`;
+DROP TABLE IF EXISTS `ProviderLinks`;
 DROP TABLE IF EXISTS `IFCategories`;
 DROP TABLE IF EXISTS `IFActions`;
 DROP TABLE IF EXISTS `IFData`;
@@ -324,7 +325,7 @@ CREATE TABLE `Uris` (
 -- Links
 --
 
- CREATE TABLE `Links` (
+CREATE TABLE `Links` (
   `id` int NOT NULL AUTO_INCREMENT,
   `intent_id` int NOT NULL,
   `component_id` int NOT NULL,
@@ -333,6 +334,13 @@ CREATE TABLE `Uris` (
   PRIMARY KEY (`id`)
  ) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 
+CREATE TABLE `ProviderLinks` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `src_component_id` int NOT NULL,
+  `dest_component_id` int NOT NULL,
+  `reserved` varchar(512),
+  PRIMARY KEY (`id`)
+ ) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 
 CREATE TABLE `Stmts` (
   `id` int NOT NULL AUTO_INCREMENT,

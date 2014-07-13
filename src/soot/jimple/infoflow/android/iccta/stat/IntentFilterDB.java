@@ -15,7 +15,7 @@ public class IntentFilterDB
 	
 	private List<String> actions = new ArrayList<String>();
 	private List<String> categories = new ArrayList<String>();
-	private DataAndType dataAndType;
+	private DataAndType dataAndType = new DataAndType();
 	
 	private int filterType = 1;
 	

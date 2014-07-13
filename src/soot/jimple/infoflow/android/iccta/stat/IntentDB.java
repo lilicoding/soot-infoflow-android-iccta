@@ -22,7 +22,7 @@ public class IntentDB
 	
 	private String action;
 	private List<String> categories = new ArrayList<String>();
-	private DataAndType dataAndType;
+	private DataAndType dataAndType = new DataAndType();
 	private List<String> extras = new ArrayList<String>();
 	
 	/*

@@ -17,6 +17,9 @@ public class StatDBHelper
 		DB.setJdbcPath("res/jdbc.xml");
 		//com.example.icctest
 		List<ComponentDB> compDBs = fetchComponents(null);
+		
+		System.out.println(compDBs.size());
+		
 		for (ComponentDB comp : compDBs)
 		{
 			System.out.println(comp);
@@ -64,6 +67,18 @@ public class StatDBHelper
 						List<IntentFilterDB> intentFilters = fetchIntentFilters(id);
 						compDB.setIntentFilters(intentFilters);
 						
+						String type = rs.getString(6);
+						compDB.setType(type);
+						
+						if (compDB.getType().equals("p"))
+						{
+							String authority = StatDBHelper.fetchContentProviderAuthority(id);
+							compDB.setContentProviderAuthority(authority);
+						}
+						
+						List<String> uris = fetchContentResolverURIs(id);
+						compDB.setContentResolverURIs(uris);
+						
 						components.add(compDB);
 					}
 				}
@@ -78,7 +93,7 @@ public class StatDBHelper
 		
 		try 
 		{
-			String sql = "select distinct c.id, a.app, b.class, c.exported, c.permission from Applications a, Classes b, Components c where a.id = b.app_id and b.id = c.class_id";
+			String sql = "select distinct c.id, a.app, b.class, c.exported, c.permission, c.kind from Applications a, Classes b, Components c where a.id = b.app_id and b.id = c.class_id";
 			
 			if (null != pkgName)
 			{
@@ -412,8 +427,6 @@ public class StatDBHelper
 				String compName = null;
 				try
 				{
-					System.out.println("");
-					
 					while (rs.next())
 					{
 						compName = rs.getString(1);
@@ -663,63 +676,86 @@ public class StatDBHelper
 		return rtVal;
 	}
 	
-	
-	/*
-	public List<Intent> fetchIntent(String pkgName)
+	public static List<String> fetchContentResolverURIs(int componentId)
 	{
-		//String sql = "select distinct a.app, b.class, i.st, j.st, d.id from Applications a, Classes b, ExitPoints c, Intents d, IActions e, ICategories f, ActionStrings i, CategoryStrings j where a.id=b.app_id and b.id=c.class_id and c.id=d.exit_id and d.implicit=1 and d.id = e.intent_id and d.id = f.intent_id and e.action=i.id and f.category=j.id and d.id not in (select intent_id from IMimeTypes ) and d.id not in (select intent_id from IData ) and a.id <= 3000; "; 
+		List<String> rtVal = null;
 		
-		
-		String sql = "select distinct a.app, b.class, c.method, c.instruction, i.st, j.st,  from Applications a, Classes b, ExitPoints c, Intents d, IActions e, ICategories f, ActionStrings i, CategoryStrings j, IData k, UriData l";
+		String sql = "select distinct e.uri from ExitPoints a, Components b, Classes c, Uris d, UriData e where a.class_id = c.id and b.class_id = c.id and d.exit_id = a.id and e.id = d.data and a.exit_kind='p' and b.id = ?;";
 		
 		DBAdapter adapter = new DBAdapter() 
 		{
 			@Override
 			protected Object processResultSet(ResultSet rs)
 			{
-				List<Intent> intents = new ArrayList<Intent>();
-				try 
+				List<String> uris = new ArrayList<String>();
+				
+				try
 				{
 					while (rs.next())
 					{
-						
-						IntentDB intentDB = new IntentDB();
-						
-						intentDB.appName = rs.getString(1);
-						intentDB.clsName = rs.getString(2);
-						intentDB.action = rs.getString(3);
-						intentDB.category = rs.getString(4);
-						
-						intentDB.intentid = rs.getString(5);
-						
-						Intent i = intentDB.toIntent();
-						
-						intents.add(i);
-						
-						intentsMap.put(i, intentDB.clsName + ":" + intentDB.appName + ":" + intentDB.intentid);
-						}
-						
+						String uri = rs.getString(1);
+						uris.add(uri);
 					}
-				catch (SQLException ex)
+				}
+				catch (Exception ex)
 				{
 					ex.printStackTrace();
 				}
 				
-				return intents;
+				return uris;
 			}
 		};
 		
-		List<Intent> intents = null;
-		
 		try 
 		{
-			intents = (List<Intent>) adapter.executeQuery(sql, new Object[] {}, "cc");
-		} catch (SQLException e) 
+			rtVal = (List<String>) adapter.executeQuery(sql, new Object[] {componentId}, Constants.DB_NAME);
+		} 
+		catch (SQLException e) 
 		{
 			e.printStackTrace();
 		}
 		
+		return rtVal;
+	}
+	
+	public static String fetchContentProviderAuthority(int componentId)
+	{
+		String rtVal = null;
 		
-		return intents;
-	}*/
+		String sql = "select distinct c.authority from Components a, Providers b, PAuthorities c where a.id = b.component_id and c.provider_id = b.id and a.id = ?;";
+		
+		DBAdapter adapter = new DBAdapter() 
+		{
+			@Override
+			protected Object processResultSet(ResultSet rs)
+			{
+				String authority = "";
+				
+				try
+				{
+					while (rs.next())
+					{
+						authority = rs.getString(1);
+					}
+				}
+				catch (Exception ex)
+				{
+					ex.printStackTrace();
+				}
+				
+				return authority;
+			}
+		};
+		
+		try 
+		{
+			rtVal = (String) adapter.executeQuery(sql, new Object[] {componentId}, Constants.DB_NAME);
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		return rtVal;
+	}
 }

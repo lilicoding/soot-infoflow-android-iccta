@@ -17,47 +17,53 @@ public class ResultOutputter
 {
 	public static void output(IInfoflowCFG cfg, InfoflowResults results) 
 	{
-		if (! results.getResults().isEmpty())
+		try
 		{
-			List<List<String>> leaks = new ArrayList<List<String>>();
-			
-			for (Entry<SinkInfo, Set<SourceInfo>> entry : results.getResults().entrySet()) 
+			if (! results.getResults().isEmpty())
 			{
-				for (SourceInfo source : entry.getValue()) 
+				List<List<String>> leaks = new ArrayList<List<String>>();
+				
+				for (Entry<SinkInfo, Set<SourceInfo>> entry : results.getResults().entrySet()) 
 				{
-					List<String> items = new ArrayList<String>();
-					
-					if (source.getPath() != null && ! source.getPath().isEmpty())
+					for (SourceInfo source : entry.getValue()) 
 					{
-						for (Unit stmt : source.getPath())
+						List<String> items = new ArrayList<String>();
+						
+						if (source.getPath() != null && ! source.getPath().isEmpty())
 						{
-							StringBuilder sb = new StringBuilder();
-							
-							sb.append(cfg.getMethodOf(stmt).getSignature() + "#");
-							
-							Tag tag = stmt.getTag(Constants.TAG_JIMPLE_INDEX_NUMBER);
-							sb.append(tag.toString() + "#");
-							
-							sb.append(stmt);
-							
-							items.add(sb.toString());
+							for (Unit stmt : source.getPath())
+							{
+								StringBuilder sb = new StringBuilder();
+								
+								sb.append(cfg.getMethodOf(stmt).getSignature() + "#");
+								
+								Tag tag = stmt.getTag(Constants.TAG_JIMPLE_INDEX_NUMBER);
+								sb.append(tag.toString() + "#");
+								
+								sb.append(stmt);
+								
+								items.add(sb.toString());
+							}
 						}
+						
+						leaks.add(items);
 					}
-					
-					leaks.add(items);
 				}
-			}
-			
-			for (List<String> leak : leaks)
-			{
-				System.out.println("============================");
-				for (String item : leak)
+				
+				for (List<String> leak : leaks)
 				{
-					System.out.println(item);
+					System.out.println("============================");
+					for (String item : leak)
+					{
+						System.out.println(item);
+					}
 				}
 			}
 		}
-		
+		catch (Exception ex)
+		{
+			//
+		}
 	}
 
 	
