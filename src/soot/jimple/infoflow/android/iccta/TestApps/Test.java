@@ -24,6 +24,7 @@ import soot.jimple.infoflow.android.iccta.db.DB;
 import soot.jimple.infoflow.android.iccta.jimpleupdater.ExtraExtractor;
 import soot.jimple.infoflow.android.iccta.jimpleupdater.InfoStatistic;
 import soot.jimple.infoflow.android.iccta.jimpleupdater.JimpleIndexNumberTransformer;
+import soot.jimple.infoflow.android.iccta.jimpleupdater.JimpleReduceStaticFieldsTransformer;
 import soot.jimple.infoflow.android.iccta.links.ICCLinker;
 import soot.jimple.infoflow.android.iccta.stat.Statistics;
 import soot.jimple.infoflow.android.iccta.todb.ToDBResultHelper;
@@ -86,6 +87,9 @@ public class Test {
 			
 			InfoStatistic mostEnding = new InfoStatistic("Ending");
 			ipcManager.addPostJimpleUpdater(mostEnding);
+			
+			JimpleReduceStaticFieldsTransformer jrsf = new JimpleReduceStaticFieldsTransformer();
+			ipcManager.addJimpleUpdater(jrsf);
 			
 			JimpleIndexNumberTransformer jinTransformer = new JimpleIndexNumberTransformer();
 			ipcManager.addJimpleUpdater(jinTransformer);
