@@ -39,6 +39,7 @@ public class JimpleReduceStaticFieldsTransformer implements JimpleUpdater
 	public void reduceStaticField()
 	{
 		extractClassesContainStatic();
+		System.out.println("ReduceStaticField: " + classesContainStatic.size() + " classes, " + getFieldsNumber() + " static fields.");
 		createNonParameterConstruct();
 		createStaticHelperClass();
 		degradeStaticField();
@@ -48,14 +49,6 @@ public class JimpleReduceStaticFieldsTransformer implements JimpleUpdater
 	public void extractClassesContainStatic()
 	{
 		Chain<SootClass> sootClasses = Scene.v().getApplicationClasses();
-		//Chain<SootClass> sootClasses = Scene.v().getClasses();
-		
-		Chain<SootClass> app = Scene.v().getApplicationClasses();
-		Chain<SootClass> lib = Scene.v().getLibraryClasses();
-		
-		System.out.println(sootClasses);
-		System.out.println(app);
-		System.out.println(lib);
 		
 		for (Iterator<SootClass> iter = sootClasses.snapshotIterator(); iter.hasNext(); )
 		{
@@ -441,5 +434,18 @@ public class JimpleReduceStaticFieldsTransformer implements JimpleUpdater
 				System.out.println(obj);
 			}
 		}
+	}
+	
+	public int getFieldsNumber()
+	{
+		int rtVal = 0;
+		for (Entry<String, List<SootField>> entry : classesContainStatic.entrySet())
+		{
+			List<SootField> objs = entry.getValue();
+			
+			rtVal += objs.size();
+		}
+		
+		return rtVal;
 	}
 }
