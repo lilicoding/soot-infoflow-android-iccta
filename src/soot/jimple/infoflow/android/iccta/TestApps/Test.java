@@ -21,6 +21,7 @@ import org.jdom2.input.SAXBuilder;
 import soot.jimple.infoflow.android.iccta.AndroidIPCManager;
 import soot.jimple.infoflow.android.iccta.IccTAPrintStream;
 import soot.jimple.infoflow.android.iccta.db.DB;
+import soot.jimple.infoflow.android.iccta.jimpleupdater.ApplicationClassSet;
 import soot.jimple.infoflow.android.iccta.jimpleupdater.ExtraExtractor;
 import soot.jimple.infoflow.android.iccta.jimpleupdater.InfoStatistic;
 import soot.jimple.infoflow.android.iccta.jimpleupdater.JimpleIndexNumberTransformer;
@@ -87,6 +88,9 @@ public class Test {
 			
 			InfoStatistic mostEnding = new InfoStatistic("Ending");
 			ipcManager.addPostJimpleUpdater(mostEnding);
+			
+			ApplicationClassSet acs = new ApplicationClassSet();
+			ipcManager.addJimpleUpdater(acs);
 			
 			JimpleReduceStaticFieldsTransformer jrsf = new JimpleReduceStaticFieldsTransformer();
 			ipcManager.addJimpleUpdater(jrsf);

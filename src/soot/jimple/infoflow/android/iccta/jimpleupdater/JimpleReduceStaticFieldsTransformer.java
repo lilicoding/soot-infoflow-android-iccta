@@ -46,9 +46,15 @@ public class JimpleReduceStaticFieldsTransformer implements JimpleUpdater
 		updateStaticFieldReference();
 	}
 	
+	public Chain<SootClass> getAnalyzedClasses()
+	{
+		//return Scene.v().getApplicationClasses();
+		return ApplicationClassSet.applicationClasses;
+	}
+	
 	public void extractClassesContainStatic()
 	{
-		Chain<SootClass> sootClasses = Scene.v().getApplicationClasses();
+		Chain<SootClass> sootClasses = getAnalyzedClasses();
 		
 		for (Iterator<SootClass> iter = sootClasses.snapshotIterator(); iter.hasNext(); )
 		{
@@ -125,21 +131,31 @@ public class JimpleReduceStaticFieldsTransformer implements JimpleUpdater
 		    	sc.addMethod(npc);
 		    	
 		    	{
-		    		LocalGenerator lg = new LocalGenerator(body);
-		            Local thisLocal = lg.generateLocal(sc.getType());
-		            Unit thisU = Jimple.v().newIdentityStmt(thisLocal, 
-		                    Jimple.v().newThisRef(sc.getType()));
-		            body.getUnits().add(thisU);
-		            
-		            SootClass supperC = sc.getSuperclass();
-		            InvokeExpr expr = Jimple.v().newSpecialInvokeExpr(thisLocal, supperC.getMethod("<init>", new ArrayList<Type>()).makeRef());
-		            Unit specialCallU = Jimple.v().newInvokeStmt(expr);
-		            body.getUnits().add(specialCallU);
-		            
-		            Unit returnVoidU = Jimple.v().newReturnVoidStmt();
-		            body.getUnits().add(returnVoidU);
-		            
-		            System.out.println("Create non parameter construct method: " + body);
+		    		try
+		    		{
+		    			LocalGenerator lg = new LocalGenerator(body);
+			            Local thisLocal = lg.generateLocal(sc.getType());
+			            Unit thisU = Jimple.v().newIdentityStmt(thisLocal, 
+			                    Jimple.v().newThisRef(sc.getType()));
+			            body.getUnits().add(thisU);
+			            
+			            SootClass supperC = sc.getSuperclass();
+			                       
+			            InvokeExpr expr = Jimple.v().newSpecialInvokeExpr(thisLocal, supperC.getMethod("<init>", new ArrayList<Type>()).makeRef());
+			            Unit specialCallU = Jimple.v().newInvokeStmt(expr);
+			            body.getUnits().add(specialCallU);
+			            
+			            Unit returnVoidU = Jimple.v().newReturnVoidStmt();
+			            body.getUnits().add(returnVoidU);
+			            
+			            System.out.println("Create non parameter construct method: " + body);
+		    		}
+		    		catch (Exception ex)
+		    		{
+		    			//couldn't find method <init>([]) in XXX.XXX
+		    			//some supper classes do not have a <init>() construment methods
+		    		}
+		    		
 		    	}
 			}
 		}
@@ -246,6 +262,12 @@ public class JimpleReduceStaticFieldsTransformer implements JimpleUpdater
 					return;
 				}
 				
+				SootClass sc = sf.getDeclaringClass();
+				if (! sc.isApplicationClass())
+				{
+					sc.setApplicationClass();
+				}
+				
 				sf.setModifiers(Modifier.PUBLIC);
 				
 				/*
@@ -292,7 +314,7 @@ public class JimpleReduceStaticFieldsTransformer implements JimpleUpdater
 	
 	public void updateStaticFieldReference()
 	{
-		Chain<SootClass> sootClasses = Scene.v().getApplicationClasses();
+		Chain<SootClass> sootClasses = getAnalyzedClasses();
 		
 		for (Iterator<SootClass> iter = sootClasses.snapshotIterator(); iter.hasNext(); )
 		{

@@ -29,7 +29,6 @@ android.mtp
 android.preference
 java.sql
 java.beans
-com.android
 android.R
 android.nfc
 android.renderscript
@@ -65,3 +64,6 @@ javax.security
 android.telephony
 android.content
 android.graphics
+android.support
+
+%com.android
