@@ -2,7 +2,6 @@
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +17,6 @@ import soot.SootMethod;
 import soot.Type;
 import soot.Unit;
 import soot.Value;
-import soot.ValueBox;
 import soot.VoidType;
 import soot.javaToJimple.LocalGenerator;
 import soot.jimple.IntConstant;
@@ -28,7 +26,7 @@ import soot.jimple.JimpleBody;
 import soot.jimple.NullConstant;
 import soot.jimple.Stmt;
 import soot.jimple.infoflow.android.iccta.icc.ICCLink;
-import soot.util.Chain;
+import soot.jimple.internal.JVirtualInvokeExpr;
 
 public class ICCRedirectionCreator {
 
@@ -115,6 +113,7 @@ public class ICCRedirectionCreator {
                 {
                 	//{sc} maybe is the super class of the real class
                 	
+                	/*
                 	ValueBox vb = (ValueBox) stmt.getUseBoxes().get(0);
                 	
                 	Chain<Local> locals = link.getFromSM().getActiveBody().getLocals();
@@ -131,8 +130,11 @@ public class ICCRedirectionCreator {
                 			break;
                 		}
                 		
-                	}
-
+                	}*/
+                	
+                	JVirtualInvokeExpr jviExpr = (JVirtualInvokeExpr) stmt.getInvokeExprBox().getValue();
+                	String clsName = jviExpr.getBase().getType().toString();
+                	SootClass sc = Scene.v().getSootClass(clsName);
                     //SootClass sc = stmt.getInvokeExpr().getMethod().getDeclaringClass();
                     redirectMethod = generateRedirectMethodForStartActivityForResult(sc, instrumentedDestinationSC);
                 }

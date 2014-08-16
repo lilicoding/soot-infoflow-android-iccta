@@ -14,6 +14,7 @@ import soot.jimple.Jimple;
 import soot.jimple.Stmt;
 import soot.jimple.infoflow.android.iccta.icc.ICCLink;
 import soot.jimple.infoflow.android.iccta.util.StmtHelper;
+import soot.jimple.internal.JVirtualInvokeExpr;
 
 /**
  * One ICC Link contain one source component and one destination component.
@@ -113,7 +114,10 @@ public class ICCInstrumentSource
         //specially deal with startActivityForResult since they have two parameters
     	if (fromStmt.toString().contains("startActivityForResult"))
     	{
-    		Value arg0 = fromStmt.getInvokeExpr().getUseBoxes().get(0).getValue();
+    		JVirtualInvokeExpr jviExpr = (JVirtualInvokeExpr) fromStmt.getInvokeExprBox().getValue();
+        	Value arg0 = jviExpr.getBase();
+    		
+    		//Value arg0 = fromStmt.getInvokeExpr().getUseBoxes().get(0).getValue();
     		Value arg1 = fromStmt.getInvokeExpr().getArg(0);
     		args.add(arg0);
     		args.add(arg1);

@@ -25,7 +25,6 @@ import soot.jimple.infoflow.android.iccta.jimpleupdater.ApplicationClassSet;
 import soot.jimple.infoflow.android.iccta.jimpleupdater.ExtraExtractor;
 import soot.jimple.infoflow.android.iccta.jimpleupdater.InfoStatistic;
 import soot.jimple.infoflow.android.iccta.jimpleupdater.JimpleIndexNumberTransformer;
-import soot.jimple.infoflow.android.iccta.jimpleupdater.JimpleReduceStaticFieldsTransformer;
 import soot.jimple.infoflow.android.iccta.links.ICCLinker;
 import soot.jimple.infoflow.android.iccta.stat.Statistics;
 import soot.jimple.infoflow.android.iccta.todb.ToDBResultHelper;
@@ -89,14 +88,21 @@ public class Test {
 			InfoStatistic mostEnding = new InfoStatistic("Ending");
 			ipcManager.addPostJimpleUpdater(mostEnding);
 			
-			ApplicationClassSet acs = new ApplicationClassSet();
-			ipcManager.addJimpleUpdater(acs);
 			
-			JimpleReduceStaticFieldsTransformer jrsf = new JimpleReduceStaticFieldsTransformer();
-			ipcManager.addJimpleUpdater(jrsf);
+			
+			
+			//JimpleReduceStaticFieldsTransformer jrsf = new JimpleReduceStaticFieldsTransformer();
+			//ipcManager.addJimpleUpdater(jrsf);
 			
 			JimpleIndexNumberTransformer jinTransformer = new JimpleIndexNumberTransformer();
 			ipcManager.addJimpleUpdater(jinTransformer);
+			
+			ApplicationClassSet acs = new ApplicationClassSet();
+			ipcManager.addJimpleUpdater(acs);
+			
+			//ExtraMapping extraMapping = new ExtraMapping(ApplicationClassSet.applicationClasses);
+			//ipcManager.addJimpleUpdater(extraMapping);
+			
 			ExtraExtractor extraExtractor = new ExtraExtractor();
 			ipcManager.addJimpleUpdater(extraExtractor);
 			
