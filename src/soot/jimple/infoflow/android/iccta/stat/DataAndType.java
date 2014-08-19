@@ -47,7 +47,7 @@ public class DataAndType
 	
 	public boolean containingNothing()
 	{
-		if (! (null == scheme && 
+		if ((null == scheme && 
 				null == path && 
 				null == host && 
 				null == port && 
@@ -66,7 +66,7 @@ public class DataAndType
 	
 	public boolean containingOnlyMimeType()
 	{
-		if (! (null == scheme && 
+		if ((null == scheme && 
 				null == path && 
 				null == host && 
 				null == port && 
@@ -118,6 +118,81 @@ public class DataAndType
 		return sb.toString();
 	}
 
+	public void parseUri()
+	{
+		if (! StringUtil.isEmpty(uri))
+		{
+			try
+			{
+				if (uri.contains("://"))
+				{
+					String[] ss = uri.split("://");
+					if (! StringUtil.isEmpty(ss[0]))
+					{
+						this.scheme = ss[0];
+					}
+					
+					int pos = ss[1].indexOf('/');
+					int pos2 = ss[1].indexOf('?');
+					
+					if (pos != -1 && pos2 != -1)
+					{
+						String auth = ss[1].substring(0, pos);
+						String path = ss[1].substring(pos, pos2);
+						String query = ss[1].substring(pos2+1);
+						
+						if (auth.contains(":"))
+						{
+							this.host = auth.split(":")[0];
+							this.port = auth.split(":")[1];
+						}
+						else
+						{
+							this.host = auth;
+						}
+						
+						this.path = path;
+						this.query = query;
+					}
+					else if (pos != -1 && pos2 == -1)
+					{
+						String auth = ss[1].substring(0, pos);
+						String path = ss[1].substring(pos);
+						
+						if (auth.contains(":"))
+						{
+							this.host = auth.split(":")[0];
+							this.port = auth.split(":")[1];
+						}
+						else
+						{
+							this.host = auth;
+						}
+						
+						this.path = path;
+					}
+					else
+					{
+						String auth = ss[1];
+						if (auth.contains(":"))
+						{
+							this.host = auth.split(":")[0];
+							this.port = auth.split(":")[1];
+						}
+						else
+						{
+							this.host = auth;
+						}
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				ex.printStackTrace();
+			}
+		}
+	}
+	
 	public String getScheme() {
 		return scheme;
 	}

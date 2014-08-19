@@ -42,17 +42,6 @@ public class ResultOutputter
 								{
 									isIccResult = true;
 								}
-								/*
-								StringBuilder sb = new StringBuilder();
-								
-								sb.append(cfg.getMethodOf(stmt).getSignature() + "#");
-								
-								Tag tag = stmt.getTag(Constants.TAG_JIMPLE_INDEX_NUMBER);
-								sb.append(tag.toString() + "#");
-								
-								sb.append(stmt);
-								
-								items.add(sb.toString());*/
 							}
 						}
 						

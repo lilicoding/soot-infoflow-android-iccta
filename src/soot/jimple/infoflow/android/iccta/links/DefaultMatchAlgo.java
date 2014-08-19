@@ -93,7 +93,7 @@ public class DefaultMatchAlgo implements IMatchAlgo
 		String action = intent.getAction();
 		if (StringUtil.isEmpty(action))
 		{
-			return false;
+			return true;
 		}
 		
 		List<String> actions = intentFilter.getActions();
@@ -189,6 +189,7 @@ public class DefaultMatchAlgo implements IMatchAlgo
 		}
 		else 
 		{
+			// Scheme
 			if (twoSameStrings(src.getScheme(), dest.getScheme()))
 			{
 				if (twoEmptyStrings(src.getHost(), dest.getHost()))
@@ -197,12 +198,28 @@ public class DefaultMatchAlgo implements IMatchAlgo
 				}
 				else
 				{
+					//Host & Port
 					if (twoSameStrings(src.getHost(), dest.getHost()))
 					{
 						boolean resultOfPort = twoEmptyStrings(src.getPort(), dest.getPort()) || twoSameStrings(src.getPort(), dest.getPort());
-						boolean resultOfPath = twoEmptyStrings(src.getPath(), dest.getPath()) || twoSameStrings(src.getPath(), dest.getPath());
+						//boolean resultOfPath = twoEmptyStrings(src.getPath(), dest.getPath()) || twoSameStrings(src.getPath(), dest.getPath());
 						
-						return true && resultOfPort && resultOfPath;
+						if (true && resultOfPort)
+						{
+							if (twoEmptyStrings(src.getPath(), dest.getPath()))
+							{
+								return true;
+							}
+							else
+							{
+								System.out.println(src.getPath() + " | " + dest.getPath());
+								
+								if (src.getPath().matches(dest.getPath()))
+								{
+									return true;
+								}
+							}
+						}
 					}
 				}
 				
@@ -247,6 +264,7 @@ public class DefaultMatchAlgo implements IMatchAlgo
 	{
 		DataAndType src = intent.getDataAndType();
 		DataAndType dest = intentFilter.getDataAndType();
+		src.parseUri();
 		
 		if (src.containingNothing() && dest.containingNothing())
 		{
