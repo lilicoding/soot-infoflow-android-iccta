@@ -179,7 +179,10 @@ public class AndroidIPCManager extends MethodBasedIPCManager {
     		//otherwise, it may cause some exceptions
     		//ex: one ICC methods belong to multiple ICCLink 
     		//(the first one will delete it, and the next one will get NullPointException)
-    		link.getFromSM().retrieveActiveBody().getUnits().remove(link.getFromU());
+    		
+    		
+    		//We have some problem about this, I will deep analyze this later.
+    		//link.getFromSM().retrieveActiveBody().getUnits().remove(link.getFromU());
     	}
     }
 }

@@ -16,7 +16,9 @@ public class Constants
 	public static final String STMT_TYPE_SOURCE = "source";
 	public static final String STMT_TYPE_SINK = "sink";
 	
+	
 	public static final String PATH_TYPE_NORMAL = "normal";
+	public static final String PATH_TYPE_ICC = "icc";
 	public static final String PATH_TYPE_PACL = "pacl";
 	public static final String PATH_TYPE_PPCL = "ppcl";
 	public static final String PATH_TYPE_PBCL = "pbcl";

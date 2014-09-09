@@ -64,6 +64,13 @@ public class InfoStatistic implements JimpleUpdater
 				try
 				{
 					Body b = sm.retrieveActiveBody();
+					
+					if (sc.getName().equals("de.ecspride.MainActivity"))
+					{
+						System.out.println(b);
+					}
+					
+					
 					PatchingChain<Unit> units = b.getUnits();
 					for (Iterator<Unit> iter2 = units.snapshotIterator(); iter2.hasNext(); )
 					{

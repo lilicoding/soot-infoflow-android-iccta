@@ -43,6 +43,41 @@ public class ToDBHelper
 		return id;
 	}
 	
+	public static int getAppId(String appName) throws Exception
+	{
+		String sql = "select id from Applications where app=?";
+		
+		DBAdapter adapter = new DBAdapter()
+		{
+
+			@Override
+			protected Object processResultSet(ResultSet rs) 
+			{
+				int id = -1;
+				try {
+					if (rs.next())
+					{
+						id = rs.getInt(1);
+					}
+					
+					if (rs.next())
+					{
+						//throw new RuntimeException("multiple class exsit in a single app.");
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				
+				return id;
+			}
+			
+		};
+		
+		int id = (int) adapter.executeQuery(sql, new Object[] {appName}, Constants.DB_NAME);
+		
+		return id;
+	}
+	
 	public static int getStmtId(String stmt, String method, int classId) throws Exception
 	{
 		String sql = "select id from Stmts where stmt=? and method=? and class_id=?;";

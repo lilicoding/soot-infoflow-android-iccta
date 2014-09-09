@@ -58,6 +58,11 @@ public class ICCRedirectionCreator {
     
     public void redirectToDestination(ICCLink link)
     {
+    	if (Scene.v().getSootClass(link.getDestinationC()).isPhantom())
+    	{
+    		return;
+    	}
+    	
     	//1) generate redirect method
     	SootMethod redirectSM = ICCRedirectionCreator.v().getRedirectMethod(link);
     	
@@ -74,7 +79,7 @@ public class ICCRedirectionCreator {
      * @return
      */
     public SootMethod getRedirectMethod(ICCLink link)
-    {	
+    {	 	
     	if (! destination2sootClass.keySet().contains(link.getDestinationC())) {
     		SootClass destinationSC = null;
     		

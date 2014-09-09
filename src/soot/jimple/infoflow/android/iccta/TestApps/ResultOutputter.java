@@ -23,8 +23,7 @@ public class ResultOutputter
 	{
 		try
 		{
-
-			if (! results.getResults().isEmpty())
+			if (null != results && null != results.getResults() && ! results.getResults().isEmpty())
 			{	
 				for (Entry<SinkInfo, Set<SourceInfo>> entry : results.getResults().entrySet()) 
 				{

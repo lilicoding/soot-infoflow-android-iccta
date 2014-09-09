@@ -18,10 +18,12 @@ import soot.jimple.infoflow.solver.IInfoflowCFG;
 
 public class ToDBResultHelper {
 
-	public static void write(List<List<StmtTable>> paths)
+	public static void write(List<List<StmtTable>> paths, String pkgName)
 	{
 		try
 		{
+			int appId = ToDBHelper.getAppId(pkgName);
+			
 			for (int i = 0; i < paths.size(); i++)
 			{
 				List<StmtTable> path = paths.get(i);
@@ -30,6 +32,7 @@ public class ToDBResultHelper {
 				
 				boolean inflow = false;
 				boolean outflow = false;
+				boolean icc = false;
 				StringBuilder sb = new StringBuilder();
 				
 				for (int j = 0; j < path.size(); j++)
@@ -58,6 +61,11 @@ public class ToDBResultHelper {
 						pathTable.setSink(id);
 						outflow = stmtTable.isIcc();
 					}
+					
+					if (stmtTable.getStmt().contains("IpcSC") && stmtTable.getStmt().contains("redirector"))
+					{
+						icc = true;
+					}
 				}
 				
 				pathTable.setPaths(sb.toString());
@@ -78,6 +86,13 @@ public class ToDBResultHelper {
 				{
 					pathTable.setType(Constants.PATH_TYPE_NORMAL);
 				}
+
+				if (icc)
+				{
+					pathTable.setIcc(1);
+				}
+				
+				pathTable.setApp_id(appId);
 				
 				DB.executeUpdate(Constants.TABLE_NAME_PATHS, pathTable, Constants.DB_NAME);
 				
@@ -139,8 +154,14 @@ public class ToDBResultHelper {
 						int classId = ToDBHelper.getClassId(sc.getName(), pkgName);
 						stmtTable.setClass_id(classId);
 						
-						int jimpleIndex = Integer.parseInt(stmt.getTag(Constants.TAG_JIMPLE_INDEX_NUMBER).toString());
-						stmtTable.setJimpleIndex(jimpleIndex);
+						try
+						{
+							int jimpleIndex = Integer.parseInt(stmt.getTag(Constants.TAG_JIMPLE_INDEX_NUMBER).toString());
+							stmtTable.setJimpleIndex(jimpleIndex);
+						}
+						catch (Exception ex)
+						{
+						}
 						
 						stmtTable.setIcc(false);
 						
@@ -184,7 +205,7 @@ public class ToDBResultHelper {
 			}
 		}
 		
-		write(paths);
+		write(paths, pkgName);
 	}
 
 	public static void toDBForExtras() throws Exception

@@ -3,10 +3,12 @@ package soot.jimple.infoflow.android.iccta.todb;
 public class PathTable 
 {
 	private int id;
+	private int app_id;
 	private int source;
 	private int sink;
 	private String paths;
 	private String type;
+	private int icc;
 	private String reserved = "";
 	
 	public int getId() {
@@ -44,5 +46,17 @@ public class PathTable
 	}
 	public void setReserved(String reserved) {
 		this.reserved = reserved;
+	}
+	public int getApp_id() {
+		return app_id;
+	}
+	public void setApp_id(int app_id) {
+		this.app_id = app_id;
+	}
+	public int getIcc() {
+		return icc;
+	}
+	public void setIcc(int icc) {
+		this.icc = icc;
 	}
 }
