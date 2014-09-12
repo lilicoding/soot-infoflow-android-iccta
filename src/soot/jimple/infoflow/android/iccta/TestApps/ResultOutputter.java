@@ -31,7 +31,7 @@ public class ResultOutputter
 					{
 						List<Unit> stmts = new ArrayList<Unit>();
 						boolean isIccResult = false;
-						
+												
 						if (source.getPath() != null && ! source.getPath().isEmpty())
 						{
 							for (Unit stmt : source.getPath())
@@ -42,6 +42,7 @@ public class ResultOutputter
 									isIccResult = true;
 								}
 							}
+
 						}
 						
 						if (isIccResult)
@@ -55,12 +56,15 @@ public class ResultOutputter
 					}
 				}
 				
+				
+				
 				List<String> iccResults = new ArrayList<String>();
-				for (List<Unit> stmts : iccStmtsList)
+				//for (List<Unit> stmts : iccStmtsList)
+				for (int i = 0; i < iccStmtsList.size(); i++)
 				{
-					if (matchExtras(stmts))
+					if (matchExtras(iccStmtsList.get(i)))
 					{
-						iccResults.add(stmts.toString());
+						iccResults.add(iccStmtsList.get(i).toString());
 					}
 				}
 				

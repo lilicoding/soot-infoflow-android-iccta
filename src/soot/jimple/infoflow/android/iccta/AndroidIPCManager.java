@@ -171,7 +171,8 @@ public class AndroidIPCManager extends MethodBasedIPCManager {
     	return links;
     }
     
-    public void postProcess(List<ICCLink> links)
+    @SuppressWarnings("unused")
+	public void postProcess(List<ICCLink> links)
     {
     	for (ICCLink link : links)
     	{

@@ -16,5 +16,6 @@
 	<classpathentry kind="lib" path="libs/android.jar"/>
 	<classpathentry kind="lib" path="libs/junit.jar"/>
 	<classpathentry kind="lib" path="libs/commons-cli-1.2.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/DroidBenchHelper"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

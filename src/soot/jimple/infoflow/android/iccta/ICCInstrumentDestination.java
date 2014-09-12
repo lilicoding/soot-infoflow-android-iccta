@@ -75,7 +75,7 @@ public class ICCInstrumentDestination
         
         instrumentDummyMainMethod(sc, intent_for_ipc);
         
-        if (isService(sc))
+        if (isService(sc) && containOnBindMethod(sc))
         {
         	Type binderType = extractBinderType(sc);
         	SootField ibinder_for_ipc = generateFieldForIBinder(sc, binderType);
@@ -92,6 +92,21 @@ public class ICCInstrumentDestination
     public SootClass instrumentDestinationForContentProvider(String destination)
     {
     	return Scene.v().getSootClass(destination);
+    }
+    
+    private boolean containOnBindMethod(SootClass sc)
+    {
+    	String onBind = "onBind";
+    	List<SootMethod> sms = sc.getMethods();
+    	for (SootMethod sm : sms)
+    	{
+    		if (sm.getName().equals(onBind))
+    		{
+    			return true;
+    		}
+    	}
+    	
+    	return false;
     }
     
     private boolean isService(SootClass sootClass)
