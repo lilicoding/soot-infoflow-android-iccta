@@ -118,7 +118,7 @@ public class Test {
 				ToDBResultHelper.toDBForExtras();
 			}
 			
-			ResultOutputter.output(FDHelper.cfg, FDHelper.results);
+			//ResultOutputter.output(FDHelper.cfg, FDHelper.results);
 		}
 		catch (Exception ex)
 		{
