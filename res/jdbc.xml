@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databases>
+	<database>
+		<name>cc</name>
+		<driver>com.mysql.jdbc.Driver</driver>
+		<url>jdbc:mysql://127.0.0.1:3306/cc</url>
+		
+		
+		<!--<url>jdbc:mysql://10.91.0.105:3306/cc</url>-->
+		<!--<url>jdbc:mysql://127.0.0.1:3306/cc</url>-->
+		<!--<url>jdbc:mysql://10.91.100.102:3306/cc</url> -->
+		<username>li</username>
+		<password>changeme</password>
+		<charset>N/A</charset>   <!-- currently not used -->
+	</database>
+</databases>

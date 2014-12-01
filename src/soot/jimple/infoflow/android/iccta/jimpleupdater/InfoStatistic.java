@@ -40,7 +40,7 @@ public class InfoStatistic implements JimpleUpdater
 		
 		Chain<SootClass> sootClasses = Scene.v().getClasses();
 		
-		for (Iterator<SootClass> iter = sootClasses.iterator(); iter.hasNext(); )
+		for (Iterator<SootClass> iter = sootClasses.snapshotIterator(); iter.hasNext(); )
 		{
 			SootClass sc = iter.next();
 			
