@@ -171,7 +171,6 @@ public class AndroidIPCManager extends MethodBasedIPCManager {
     	return links;
     }
     
-    @SuppressWarnings("unused")
 	public void postProcess(List<ICCLink> links)
     {
     	for (ICCLink link : links)
@@ -182,8 +181,9 @@ public class AndroidIPCManager extends MethodBasedIPCManager {
     		//(the first one will delete it, and the next one will get NullPointException)
     		
     		
-    		//We have some problem about this, I will deep analyze this later.
-    		//link.getFromSM().retrieveActiveBody().getUnits().remove(link.getFromU());
+    		// If the activeBody does not contain the removing statement, the next code does nothing
+    		link.getFromSM().retrieveActiveBody().getUnits().remove(link.getFromU());
+    		System.out.println(link.getFromSM().retrieveActiveBody());
     	}
     }
 }
