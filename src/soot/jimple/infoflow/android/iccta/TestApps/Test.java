@@ -30,6 +30,7 @@ import soot.jimple.infoflow.android.iccta.stat.Statistics;
 import soot.jimple.infoflow.android.iccta.todb.ToDBResultHelper;
 import soot.jimple.infoflow.android.iccta.util.Constants;
 import soot.jimple.infoflow.android.manifest.ProcessManifest;
+import soot.jimple.infoflow.data.pathBuilders.DefaultPathBuilderFactory.PathBuilder;
 
 public class Test {
 
@@ -192,7 +193,8 @@ public class Test {
 		options.addOption(new Option(FDHelper.NO_PATHS, FDHelper.NO_PATHS_DESC));
 		Option aplength = OptionBuilder.withArgName(FDHelper.APLENGTH).hasArg().withDescription(FDHelper.APLENGTH_DESC).create(FDHelper.APLENGTH);
 		options.addOption(aplength);
-		
+		Option pathalgo = OptionBuilder.withArgName(FDHelper.PATH_ALGO).hasArg().withDescription(FDHelper.PATH_ALGO_DESC).create(FDHelper.PATH_ALGO);
+		options.addOption(pathalgo);
 		//printHelp(options);
 		
 		return options;
@@ -263,10 +265,30 @@ public class Test {
 				String len = cmd.getOptionValue(FDHelper.APLENGTH);
 				FDHelper.accessPathLength = Integer.parseInt(len);
 			}
+			
+			if (cmd.hasOption(FDHelper.PATH_ALGO))
+			{
+				String algo = cmd.getOptionValue(FDHelper.PATH_ALGO);
+				setPathAlgo(algo);
+			}
 		} 
 		catch (ParseException e) 
 		{
 			e.printStackTrace();
+		}
+	}
+	
+	static void setPathAlgo(String algo) throws ParseException
+	{
+		if (algo.equalsIgnoreCase("CONTEXTSENSITIVE"))
+			FDHelper.pathBuilder = PathBuilder.ContextSensitive;
+		else if (algo.equalsIgnoreCase("CONTEXTINSENSITIVE"))
+			FDHelper.pathBuilder = PathBuilder.ContextInsensitive;
+		else if (algo.equalsIgnoreCase("SOURCESONLY"))
+			FDHelper.pathBuilder = PathBuilder.ContextInsensitiveSourceFinder;
+		else {
+			System.err.println("Invalid path reconstruction algorithm");
+			throw new ParseException("Invalid path reconstruction algorithm");
 		}
 	}
 	

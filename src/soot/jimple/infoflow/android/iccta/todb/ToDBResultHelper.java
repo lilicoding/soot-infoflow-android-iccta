@@ -7,9 +7,9 @@ import java.util.Map;
 import soot.SootClass;
 import soot.SootMethod;
 import soot.jimple.Stmt;
-import soot.jimple.infoflow.InfoflowResults;
-import soot.jimple.infoflow.InfoflowResults.SinkInfo;
-import soot.jimple.infoflow.InfoflowResults.SourceInfo;
+import soot.jimple.infoflow.results.InfoflowResults;
+import soot.jimple.infoflow.results.ResultSinkInfo;
+import soot.jimple.infoflow.results.ResultSourceInfo;
 import soot.jimple.infoflow.android.iccta.db.DB;
 import soot.jimple.infoflow.android.iccta.jimpleupdater.ExtraExtractor;
 import soot.jimple.infoflow.android.iccta.util.Constants;
@@ -133,11 +133,11 @@ public class ToDBResultHelper {
 		if (results != null) 
 		{
 
-			for (SinkInfo sink : results.getResults().keySet()) 
+			for (ResultSinkInfo sink : results.getResults().keySet()) 
 			{
 				List<StmtTable> onePath = new ArrayList<StmtTable>();
 				
-				for (SourceInfo source : results.getResults().get(sink)) 
+				for (ResultSourceInfo source : results.getResults().get(sink)) 
 				{
 					List<Stmt> stmts = source.getPath();
 					

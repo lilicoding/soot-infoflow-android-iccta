@@ -8,7 +8,7 @@ public class StmtTable
 	private int class_id;
 	private int jimpleIndex;
 	private boolean isIcc;
-	private String type;
+	private String type = "";
 	private String reserved = "";
 	
 	public int getId() {

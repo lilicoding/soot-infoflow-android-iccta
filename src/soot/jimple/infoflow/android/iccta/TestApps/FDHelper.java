@@ -6,11 +6,12 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.xmlpull.v1.XmlPullParserException;
 
-import soot.jimple.infoflow.InfoflowResults;
 import soot.jimple.infoflow.android.AndroidSourceSinkManager.LayoutMatchingMode;
 import soot.jimple.infoflow.android.SetupApplication;
+import soot.jimple.infoflow.data.pathBuilders.DefaultPathBuilderFactory.PathBuilder;
 import soot.jimple.infoflow.handlers.ResultsAvailableHandler;
 import soot.jimple.infoflow.ipc.IIPCManager;
+import soot.jimple.infoflow.results.InfoflowResults;
 import soot.jimple.infoflow.solver.IInfoflowCFG;
 import soot.jimple.infoflow.taintWrappers.EasyTaintWrapper;
 import soot.jimple.infoflow.taintWrappers.ITaintPropagationWrapper;
@@ -33,10 +34,14 @@ public class FDHelper
 	public static final String NO_PATHS = "nopaths";
 	public static final String NO_PATHS_DESC = "Just shows which sources are connected to which sinks, but does not reconstruct exact propagation paths. Note that this option does not affect precision. It just disables the additional path processing";
 	
+	public static final String PATH_ALGO = "pathalgo";
+	public static final String PATH_ALGO_DESC = "Specifies the path reconstruction algorithm to be used. Please referring to FlowDroid for more details about this parameter";
+	
 	public static boolean enableCallbacks = true;
 	public static boolean staticTracking = true;
 	public static boolean computeResultPaths = true;
 	public static int accessPathLength = 5;
+	public static PathBuilder pathBuilder = PathBuilder.ContextSensitive;
 	
 	public static IInfoflowCFG cfg = null;
 	public static InfoflowResults results = null;
@@ -50,6 +55,7 @@ public class FDHelper
 	private static boolean aggressiveTaintWrapper = false;
 	private static boolean librarySummaryTaintWrapper = false;
 	private static String summaryPath = "";
+	
 	
 	private static IIPCManager ipcManager = null;
 	public static void setIpcManager(IIPCManager ipcManager) {
@@ -81,6 +87,7 @@ public class FDHelper
 			app.setFlowSensitiveAliasing(flowSensitiveAliasing);
 			app.setComputeResultPaths(computeResultPaths);
 			app.setEnableCallbackSources(false);
+			app.setPathBuilder(pathBuilder);
 			
 			final ITaintPropagationWrapper taintWrapper;
 			if (librarySummaryTaintWrapper) {
