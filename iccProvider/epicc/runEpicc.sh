@@ -5,7 +5,7 @@ DB=cc
 USERNAME=li
 PASSWORD=changeme
 
-ANDROID_JARS=/Users/li.li/Project/github/android-platforms
+ANDROID_JARS=../../android-platforms
 APP=$1
 
 rm -rf testspace/*
