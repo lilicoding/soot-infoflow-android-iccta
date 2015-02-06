@@ -26,6 +26,7 @@ import soot.jimple.infoflow.android.iccta.jimpleupdater.ExtraExtractor;
 import soot.jimple.infoflow.android.iccta.jimpleupdater.InfoStatistic;
 import soot.jimple.infoflow.android.iccta.jimpleupdater.JimpleIndexNumberTransformer;
 import soot.jimple.infoflow.android.iccta.links.ICCLinker;
+import soot.jimple.infoflow.android.iccta.sharedpreferences.SharedPreferencesUpdater;
 import soot.jimple.infoflow.android.iccta.stat.Statistics;
 import soot.jimple.infoflow.android.iccta.todb.ToDBResultHelper;
 import soot.jimple.infoflow.android.iccta.util.Constants;
@@ -90,7 +91,8 @@ public class Test {
 			ipcManager.addPostJimpleUpdater(mostEnding);
 			
 			
-			
+			SharedPreferencesUpdater sharedPreferencesUpdater = new SharedPreferencesUpdater();
+			ipcManager.addJimpleUpdater(sharedPreferencesUpdater);
 			
 			//JimpleReduceStaticFieldsTransformer jrsf = new JimpleReduceStaticFieldsTransformer();
 			//ipcManager.addJimpleUpdater(jrsf);
