@@ -18,9 +18,11 @@ import soot.Unit;
 import soot.Value;
 import soot.VoidType;
 import soot.javaToJimple.LocalGenerator;
+import soot.jimple.IdentityStmt;
 import soot.jimple.Jimple;
 import soot.jimple.ReturnStmt;
 import soot.jimple.Stmt;
+import soot.util.Chain;
 
 
 /**
@@ -405,7 +407,7 @@ public class ICCInstrumentDestination
     		}
     		
     		List<Value> argValues = stmt.getInvokeExpr().getArgs();	
-    		
+    		/*
     		for (Value value : argValues)
     		{
     			Type type = value.getType();
@@ -414,9 +416,64 @@ public class ICCInstrumentDestination
     				Unit setIntentU = Jimple.v().newAssignStmt(     
     						value,
     	                    Jimple.v().newStaticFieldRef(intentSootField.makeRef()));
+    				
     	    		units.insertBefore(setIntentU, stmt);
     			}
+    		}*/
+    		
+    		//Using another way to transfer Intent
+    		for (int i = 0; i < argValues.size(); i++)
+    		{
+    			Value value = argValues.get(i);
+    			Type type = value.getType();
+    			if (type.equals(INTENT_TYPE))
+    			{
+    				assignIntent(stmt.getInvokeExpr().getMethod(), i+1);
+    			}
     		}
+    	}
+    }
+    
+    public void assignIntent(SootMethod method, int indexOfArgs)
+    {
+    	Body body = method.getActiveBody();
+
+    	PatchingChain<Unit> units = body.getUnits();
+    	Chain<Local> locals = body.getLocals();
+    	Value intentV = null;
+		int identityStmtIndex = 0;
+		
+    	for (Iterator<Unit> iter = units.snapshotIterator(); iter.hasNext(); )
+    	{
+    		Stmt stmt = (Stmt) iter.next();
+			if (! method.isStatic())
+			{
+	    		if (stmt instanceof IdentityStmt)
+	    		{			
+	    			if (identityStmtIndex == indexOfArgs)
+	    			{
+	    				intentV = ((IdentityStmt) stmt).getLeftOp();
+	    			}
+	    			
+	    			identityStmtIndex++;
+	    		}
+	    		else
+	    		{
+	    	 		Local thisLocal = locals.getFirst();
+	    			
+	    			Unit setIntentU = Jimple.v().newAssignStmt(     
+	    					intentV,
+	    					Jimple.v().newVirtualInvokeExpr(thisLocal, method.getDeclaringClass().getMethodByName("getIntent").makeRef()));
+					
+		    		units.insertBefore(setIntentU, stmt);
+		    		
+		    		System.out.println(body);
+		    		
+		    		return;
+	    		}
+			}
+			
+    		
     	}
     }
     
@@ -494,6 +551,7 @@ public class ICCInstrumentDestination
     		return null;
     	}
     	
+    	
     	Body body = onBindMethod.retrieveActiveBody();
     	PatchingChain<Unit> units = body.getUnits();
     	for (Iterator<Unit> iter = units.snapshotIterator(); iter.hasNext(); )
@@ -505,10 +563,16 @@ public class ICCInstrumentDestination
     			ReturnStmt rtStmt = (ReturnStmt) stmt;
     			Value rtValue = rtStmt.getOp();
     			
+    			if (rtValue.toString().equals("null"))
+    			{
+    				return onBindMethod.getReturnType();
+    			}
+    			
     			return rtValue.getType();
     		}
     		
     	}
-    	return null;
+    	
+    	return onBindMethod.getReturnType();
     }
 }

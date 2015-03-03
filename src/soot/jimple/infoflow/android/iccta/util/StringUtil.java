@@ -1,5 +1,6 @@
 package soot.jimple.infoflow.android.iccta.util;
 
+
 public class StringUtil {
 
 	public static boolean isEmpty(String str) 
@@ -12,4 +13,5 @@ public class StringUtil {
 		return true;
 	}
 
+	
 }
