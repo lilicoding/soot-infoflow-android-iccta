@@ -20,6 +20,7 @@ import soot.VoidType;
 import soot.javaToJimple.LocalGenerator;
 import soot.jimple.IdentityStmt;
 import soot.jimple.Jimple;
+import soot.jimple.NullConstant;
 import soot.jimple.ReturnStmt;
 import soot.jimple.Stmt;
 import soot.util.Chain;
@@ -54,6 +55,11 @@ public class ICCInstrumentDestination
     {
     	System.out.println("instrument destination class for "+ destination);
         SootClass sc = Scene.v().getSootClass(destination);
+        
+        if (sc.getName().equals("com.ophone.MiniPlayer.MyPlayerService$CommandReceiver"))
+        {
+        	System.out.println("DEBUG:" + sc);
+        }
         
         SootField intent_for_ipc = generateIntentFieldForIpc(sc);
         SootField intent_for_ar = generateIntentFieldForActivityResult(sc);
@@ -206,10 +212,46 @@ public class ICCInstrumentDestination
         Unit intentParameterU = Jimple.v().newIdentityStmt(
                 intentParameterLocal,
                 Jimple.v().newParameterRef(INTENT_TYPE, 0));
-        Unit superU = (Unit) Jimple.v().newInvokeStmt(
+        
+        boolean noDefaultConstructMethod = false;
+        Unit superU = null;
+        try
+        {
+        	superU = (Unit) Jimple.v().newInvokeStmt(
                 Jimple.v().newSpecialInvokeExpr(thisLocal, 
-                		compSootClass.getMethod(name, new ArrayList<Type>(), VoidType.v()).makeRef())
-                        );
+            		compSootClass.getMethod(name, new ArrayList<Type>(), VoidType.v()).makeRef())
+                    );
+        }
+        catch (Exception ex)
+        {
+        	//It is possible that a class doesn't have a default construct method (<init>()).
+            noDefaultConstructMethod = true;
+        }
+        
+        if (noDefaultConstructMethod)
+        {
+        	List<SootMethod> sootMethods = compSootClass.getMethods();
+        	for (SootMethod sm : sootMethods)
+        	{
+        		if (sm.getName().equals("<init>"))
+        		{
+        			if (sm.getParameterCount() == 1 && sm.getParameterType(0).equals(INTENT_TYPE))
+        			{
+        				continue;
+        			}
+        			
+        			List<Value> args = new ArrayList<Value>();
+        			for (int i = 0; i < sm.getParameterCount(); i++)
+        			{
+        				args.add(NullConstant.v());
+        			}
+        			
+        			superU = (Unit) Jimple.v().newInvokeStmt(Jimple.v().newSpecialInvokeExpr(thisLocal, sm.makeRef(), args));
+        			break;
+        		}
+        	}
+        }
+        
         Unit storeIntentU = Jimple.v().newAssignStmt(
                 Jimple.v().newStaticFieldRef(intentSootField.makeRef()), 
                 intentParameterLocal);

@@ -10,6 +10,7 @@ import soot.IntType;
 import soot.Local;
 import soot.Modifier;
 import soot.NullType;
+import soot.PointsToSet;
 import soot.RefType;
 import soot.Scene;
 import soot.SootClass;
@@ -147,8 +148,7 @@ public class ICCRedirectionCreator {
                 {
                 	Value v = stmt.getInvokeExpr().getArg(1);
                 	
-                	SootClass sc = Scene.v().getSootClass(v.getType().toString());
-                	
+                	SootClass sc = Scene.v().getSootClass(v.getType().toString());           	
                 	redirectMethod = generateRedirectMethodForBindService(sc, instrumentedDestinationSC);
                 }
                 //else if (stmt.getInvokeExpr().getMethod().getName().equals("startActivity"))
@@ -462,7 +462,23 @@ public class ICCRedirectionCreator {
         args = new ArrayList<Value>();
         args.add(iLocal1);
         args.add(ibinderLocal);
-        invoke = Jimple.v().newVirtualInvokeExpr(originActivityParameterLocal, method.makeRef(), args);  
+        
+        PointsToSet pointsToSet = Scene.v().getPointsToAnalysis().reachingObjects(originActivityParameterLocal);
+        
+        System.out.println(pointsToSet.possibleClassConstants());
+        System.out.println(pointsToSet.possibleStringConstants());
+        System.out.println(pointsToSet.possibleTypes());
+        
+        SootClass sc = Scene.v().getSootClass(originActivityParameterLocal.getType().toString());
+        if (sc.isInterface())
+        {
+        	invoke = Jimple.v().newInterfaceInvokeExpr(originActivityParameterLocal, method.makeRef(), args);
+        }
+        else
+        {
+        	invoke = Jimple.v().newVirtualInvokeExpr(originActivityParameterLocal, method.makeRef(), args); 
+        }
+        
         Unit onActivityResultCall = (Unit) Jimple.v().newInvokeStmt(invoke);
         
         b.getUnits().add(originActivityParameterU);
