@@ -11,9 +11,9 @@
 	<classpathentry kind="lib" path="libs/android.jar"/>
 	<classpathentry kind="lib" path="libs/junit.jar"/>
 	<classpathentry kind="lib" path="libs/commons-cli-1.2.jar"/>
-	<classpathentry kind="lib" path="libs/guava-14.0.1.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/heros"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jasmin"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/soot"/>
+	<classpathentry kind="lib" path="/heros/guava-14.0.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
