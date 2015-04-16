@@ -130,6 +130,23 @@ public class DefaultMatchAlgo implements IMatchAlgo
 		String srcSubtype = src.getSubtype();
 		String destSubtype = dest.getSubtype();
 		
+		if (null == srcType)
+		{
+			srcType = "*";
+		}
+		if (null == destType)
+		{
+			destType = "*";
+		}
+		if (null == srcSubtype)
+		{
+			srcSubtype = "*";
+		}
+		if (null == destSubtype)
+		{
+			destSubtype = "*";
+		}
+		
 		if (StringUtil.isEmpty(srcType) && StringUtil.isEmpty(destType))
 		{
 			if (StringUtil.isEmpty(srcSubtype) && StringUtil.isEmpty(destSubtype))

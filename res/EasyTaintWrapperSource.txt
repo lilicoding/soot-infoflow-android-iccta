@@ -213,6 +213,10 @@
 <java.math.BigInteger: java.math.BigInteger valueOf(long)>
 
 <java.io.FileInputStream: void <init>(java.io.File)>
+<java.io.FileOutputStream: void <init>(java.lang.String)>
+
+<java.io.File: void <init>(java.lang.String)>
+<java.io.File: void <init>(java.lang.String,java.lang.String)>
 
 <java.text.MessageFormat: void <init>(java.lang.String)>
 <java.text.MessageFormat: void <init>(java.lang.String,java.util.Locale)>
@@ -300,6 +304,8 @@
 <org.apache.http.entity.StringEntity: void <init>(java.lang.String,java.lang.String)>
 <org.apache.http.entity.StringEntity: void <init>(java.lang.String,java.lang.String,java.lang.String)>
 
+<org.apache.http.client.methods.HttpPost: void <init>(java.lang.String)>
+
 <java.util.Arrays: java.util.List asList(java.lang.Object[])>
 <java.util.Arrays: java.lang.Object[] copyOf(java.lang.Object[],int)>
 
@@ -316,3 +322,21 @@
 # Exclude the ServerSocket stuff
 # ~<java.net.ServerSocket: java.net.Socket accept()>
 # ~<java.net.Socket: java.io.InputStream getInputStream()>
+
+<java.nio.ByteBuffer: java.nio.ByteBuffer put(byte)>
+<java.nio.ByteBuffer: java.nio.ByteBuffer put(byte[])>
+<java.nio.ByteBuffer: java.nio.ByteBuffer put(byte[],int,int)>
+<java.nio.ByteBuffer: java.nio.ByteBuffer put(java.nio.ByteBuffer)>
+<java.nio.ByteBuffer: java.nio.ByteBuffer put(int,byte)>
+<java.nio.ByteBuffer: java.nio.ByteBuffer putChar(char)>
+<java.nio.ByteBuffer: java.nio.ByteBuffer putChar(int,char)>
+<java.nio.ByteBuffer: java.nio.ByteBuffer putDouble(double)>
+<java.nio.ByteBuffer: java.nio.ByteBuffer putDouble(int,double)>
+<java.nio.ByteBuffer: java.nio.ByteBuffer putFloat(float)>
+<java.nio.ByteBuffer: java.nio.ByteBuffer putFloat(int,float)>
+<java.nio.ByteBuffer: java.nio.ByteBuffer putInt(int)>
+<java.nio.ByteBuffer: java.nio.ByteBuffer putInt(int,int)>
+<java.nio.ByteBuffer: java.nio.ByteBuffer putLong(long)>
+<java.nio.ByteBuffer: java.nio.ByteBuffer putLong(int,long)>
+<java.nio.ByteBuffer: java.nio.ByteBuffer putShort(short)>
+<java.nio.ByteBuffer: java.nio.ByteBuffer putShort(int,short)>

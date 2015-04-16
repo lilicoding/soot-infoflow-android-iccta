@@ -56,11 +56,6 @@ public class ICCInstrumentDestination
     	System.out.println("instrument destination class for "+ destination);
         SootClass sc = Scene.v().getSootClass(destination);
         
-        if (sc.getName().equals("com.ophone.MiniPlayer.MyPlayerService$CommandReceiver"))
-        {
-        	System.out.println("DEBUG:" + sc);
-        }
-        
         SootField intent_for_ipc = generateIntentFieldForIpc(sc);
         SootField intent_for_ar = generateIntentFieldForActivityResult(sc);
         
@@ -447,7 +442,7 @@ public class ICCInstrumentDestination
     		{
     			continue;
     		}
-    		
+    			
     		List<Value> argValues = stmt.getInvokeExpr().getArgs();	
     		/*
     		for (Value value : argValues)
@@ -470,13 +465,13 @@ public class ICCInstrumentDestination
     			Type type = value.getType();
     			if (type.equals(INTENT_TYPE))
     			{
-    				assignIntent(stmt.getInvokeExpr().getMethod(), i+1);
+    				assignIntent(compSootClass, stmt.getInvokeExpr().getMethod(), i+1);
     			}
     		}
     	}
     }
     
-    public void assignIntent(SootMethod method, int indexOfArgs)
+    public void assignIntent(SootClass hostComponent, SootMethod method, int indexOfArgs)
     {
     	Body body = method.getActiveBody();
 
@@ -503,10 +498,21 @@ public class ICCInstrumentDestination
 	    		{
 	    	 		Local thisLocal = locals.getFirst();
 	    			
+	    	 		/*
 	    			Unit setIntentU = Jimple.v().newAssignStmt(     
 	    					intentV,
 	    					Jimple.v().newVirtualInvokeExpr(thisLocal, method.getDeclaringClass().getMethodByName("getIntent").makeRef()));
-					
+					*/
+	    	 		
+	    	 		/* Using the component that the dummyMain() belongs to, as in some cases the invoked method is only available in its superclass.
+	    	 		 * and its superclass does not contain getIntent() and consequently cause an runtime exception of couldn't find getIntent(). 
+	    	 		 * 
+	    	 		 * RuntimeException: couldn't find method getIntent(*) in com.google.android.gcm.GCMBroadcastReceiver
+	    	 		*/
+	    	 		Unit setIntentU = Jimple.v().newAssignStmt(     
+	    					intentV,
+	    					Jimple.v().newVirtualInvokeExpr(thisLocal, hostComponent.getMethodByName("getIntent").makeRef()));
+	    	 		
 		    		units.insertBefore(setIntentU, stmt);
 		    		
 		    		System.out.println(body);
