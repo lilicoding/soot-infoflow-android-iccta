@@ -51,8 +51,11 @@ public class ICCRedirectionCreator {
             s = new ICCRedirectionCreator();
             ipcSC = new SootClass(ipcSCClassName);
             ipcSC.setSuperclass(Scene.v().getSootClass("java.lang.Object"));
+            
             ipcSC.setPhantom(false);
+            ipcSC.setApplicationClass();
             ipcSC.setInScene(true);
+
             //Scene.v().addClass(ipcSC);
         }
         return s;

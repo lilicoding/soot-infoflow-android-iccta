@@ -6,8 +6,9 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.xmlpull.v1.XmlPullParserException;
 
-import soot.jimple.infoflow.android.AndroidSourceSinkManager.LayoutMatchingMode;
+import soot.jimple.infoflow.IInfoflow.CodeEliminationMode;
 import soot.jimple.infoflow.android.SetupApplication;
+import soot.jimple.infoflow.android.source.AndroidSourceSinkManager.LayoutMatchingMode;
 import soot.jimple.infoflow.data.pathBuilders.DefaultPathBuilderFactory.PathBuilder;
 import soot.jimple.infoflow.handlers.ResultsAvailableHandler;
 import soot.jimple.infoflow.ipc.IIPCManager;
@@ -88,6 +89,8 @@ public class FDHelper
 			app.setComputeResultPaths(computeResultPaths);
 			app.setEnableCallbackSources(false);
 			app.setPathBuilder(pathBuilder);
+			
+			app.setCodeEliminationMode(CodeEliminationMode.NoCodeElimination);
 			
 			final ITaintPropagationWrapper taintWrapper;
 			if (librarySummaryTaintWrapper) {
