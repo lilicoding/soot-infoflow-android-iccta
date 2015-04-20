@@ -232,6 +232,9 @@ public class ICCInstrumentDestination
         		{
         			if (sm.getParameterCount() == 1 && sm.getParameterType(0).equals(INTENT_TYPE))
         			{
+        				List<Value> args = new ArrayList<Value>();
+        				args.add(intentParameterLocal);
+        				superU = (Unit) Jimple.v().newInvokeStmt(Jimple.v().newSpecialInvokeExpr(thisLocal, sm.makeRef(), args));
         				continue;
         			}
         			
