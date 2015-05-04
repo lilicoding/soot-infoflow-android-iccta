@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import soot.jimple.infoflow.android.iccta.icc.ICCLink;
+import soot.jimple.infoflow.android.iccta.links.UnreasonableLinksRemover;
 
 public class ICCLinksConfigFileParser 
 {
@@ -86,7 +87,10 @@ public class ICCLinksConfigFileParser
 				
 				ICCLink link = new ICCLink(fromSMString, Integer.parseInt(lineNumber), exitKind, destinationC, instructions);
 				
-				put(pkg2links, pkg, link);
+				if (! UnreasonableLinksRemover.isUnreasonable(link))
+				{
+					put(pkg2links, pkg, link);
+				}
 			}
 			
 			br.close();

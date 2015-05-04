@@ -9,6 +9,7 @@ import java.util.List;
 
 import soot.jimple.infoflow.android.iccta.db.DBAdapter;
 import soot.jimple.infoflow.android.iccta.iac.IACLink;
+import soot.jimple.infoflow.android.iccta.links.UnreasonableLinksRemover;
 import soot.jimple.infoflow.android.iccta.util.Constants;
 
 
@@ -141,7 +142,12 @@ public class ICCLinksEpiccProvider implements IICCLinksProvider
 						List<Integer> instructions = fetchInstructions(fromSMString, names);
 						
 						ICCLink link = new ICCLink(fromSMString, instruction, exitKind, destinationC, instructions);
-						links.add(link);
+						
+						if (! UnreasonableLinksRemover.isUnreasonable(link))
+						{
+							links.add(link);
+						}
+						
 					}
 				} catch (SQLException e) 
 				{
@@ -202,7 +208,11 @@ public class ICCLinksEpiccProvider implements IICCLinksProvider
 						List<Integer> instructions = fetchInstructions(fromSMString, names);
 						
 						ICCLink link = new ICCLink(fromSMString, instruction, exitKind, destinationC, instructions);
-						links.add(link);
+						
+						if (! UnreasonableLinksRemover.isUnreasonable(link))
+						{
+							links.add(link);
+						}
 					}
 				} catch (SQLException e) 
 				{
