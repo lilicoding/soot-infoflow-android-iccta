@@ -87,7 +87,17 @@ public class ICCInstrumentDestination
         }
 
         for (SootMethod sm: sc.getMethods())
-            System.out.println("wrapper method "+ sm +" \n"+ sm.retrieveActiveBody());
+        {
+        	try
+        	{
+        		System.out.println("wrapper method "+ sm +" \n"+ sm.retrieveActiveBody());
+        	}
+        	catch (Exception ex)
+        	{
+        		//TODO: nothing
+        	}
+        }
+            
         
         return sc;
     }
