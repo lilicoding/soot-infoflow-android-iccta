@@ -90,11 +90,17 @@ public class ICCInstrumentDestination
         {
         	try
         	{
+        		//abstract and native method do not have a body inside.
+        		if (sm.isAbstract() || sm.isNative())
+        		{
+        			continue;
+        		}
+        		
         		System.out.println("wrapper method "+ sm +" \n"+ sm.retrieveActiveBody());
         	}
         	catch (Exception ex)
         	{
-        		//TODO: nothing
+        		System.out.println("Exception: to retrieve activi body for " + sm.getSignature());
         	}
         }
             
