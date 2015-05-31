@@ -3,7 +3,6 @@ release/testapks
 release/testspace
 
 bin
-iccProvider/ic3
 iccProvider/epicc/output_iccta
 iccProvider/epicc/sootOutput
 iccProvider/epicc/testspace

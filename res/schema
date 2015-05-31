@@ -8,6 +8,7 @@ DROP TABLE IF EXISTS `ExitPointComponents`;
 DROP TABLE IF EXISTS `PAuthorities`;
 DROP TABLE IF EXISTS `Providers`;
 DROP TABLE IF EXISTS `Components`;
+DROP TABLE IF EXISTS `ComponentExtras`;
 DROP TABLE IF EXISTS `ICategories`;
 DROP TABLE IF EXISTS `IActions`;
 DROP TABLE IF EXISTS `IMimeTypes`;
@@ -120,6 +121,14 @@ CREATE TABLE `Components` (
   PRIMARY KEY (`id`),
   FOREIGN KEY (`class_id`) REFERENCES Classes(`id`) ON DELETE CASCADE,
   FOREIGN KEY (`permission`) REFERENCES PermissionStrings(`id`)
+) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+
+CREATE TABLE `ComponentExtras` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `component_id` int NOT NULL,
+  `extra` varchar(512) NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`component_id`) REFERENCES Components(`id`)
 ) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 
 CREATE TABLE `Aliases` (
