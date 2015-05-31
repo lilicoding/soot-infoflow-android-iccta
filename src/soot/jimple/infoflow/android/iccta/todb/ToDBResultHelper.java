@@ -7,14 +7,14 @@ import java.util.Map;
 import soot.SootClass;
 import soot.SootMethod;
 import soot.jimple.Stmt;
-import soot.jimple.infoflow.results.InfoflowResults;
-import soot.jimple.infoflow.results.ResultSinkInfo;
-import soot.jimple.infoflow.results.ResultSourceInfo;
 import soot.jimple.infoflow.android.iccta.db.DB;
 import soot.jimple.infoflow.android.iccta.jimpleupdater.ExtraExtractor;
 import soot.jimple.infoflow.android.iccta.util.Constants;
 import soot.jimple.infoflow.android.iccta.util.ICCHelper;
-import soot.jimple.infoflow.solver.IInfoflowCFG;
+import soot.jimple.infoflow.results.InfoflowResults;
+import soot.jimple.infoflow.results.ResultSinkInfo;
+import soot.jimple.infoflow.results.ResultSourceInfo;
+import soot.jimple.infoflow.solver.cfg.IInfoflowCFG;
 
 public class ToDBResultHelper {
 

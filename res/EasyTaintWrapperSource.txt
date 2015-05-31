@@ -136,6 +136,7 @@
 <java.lang.String: char[] toCharArray()>
 
 <java.lang.String: java.lang.String replaceAll(java.lang.String,java.lang.String)>
+<java.lang.String: java.lang.String replace(java.lang.CharSequence,java.lang.CharSequence)>
 
 <java.lang.Byte: java.lang.Byte valueOf(byte)>
 <java.lang.Byte: java.lang.Byte valueOf(java.lang.String)>
@@ -215,6 +216,12 @@
 <java.io.FileInputStream: void <init>(java.io.File)>
 <java.io.FileOutputStream: void <init>(java.lang.String)>
 
+<java.io.ByteArrayOutputStream: void write(byte[],int,int)>
+
+<java.io.ObjectOutputStream: void writeObject(java.lang.Object>
+
+<java.io.ObjectInputStream: void <init>(java.io.InputStream)>
+
 <java.io.File: void <init>(java.lang.String)>
 <java.io.File: void <init>(java.lang.String,java.lang.String)>
 
@@ -256,11 +263,24 @@
 <java.util.Collections: java.util.List singletonList(java.lang.Object)>
 <java.util.Collections: java.util.Map singletonMap(java.lang.Object,java.lang.Object)>
 
+<android.content.ContentValues: void put(java.lang.String,java.lang.Byte)>
 <android.content.ContentValues: void put(java.lang.String,java.lang.Integer)>
+<android.content.ContentValues: void put(java.lang.String,java.lang.Float)>
+<android.content.ContentValues: void put(java.lang.String,java.lang.Short)>
+<android.content.ContentValues: void put(java.lang.String,byte[])>
+<android.content.ContentValues: void put(java.lang.String,java.lang.String)>
+<android.content.ContentValues: void put(java.lang.String,java.lang.Double)>
+<android.content.ContentValues: void put(java.lang.String,java.lang.Long)>
+<android.content.ContentValues: void put(java.lang.String,java.lang.Boolean)>
+
+<android.content.ContentValues: void putAll(android.content.ContentValues)>
+<android.content.ContentValues: void putNull(java.lang.String)>
 
 <android.content.Intent: void <init>(android.content.Context,java.lang.Class)>
 <android.content.Intent: android.content.Intent addFlags(int)>
 <android.content.Intent: android.content.Intent setFlags(int)>
+<android.content.Intent: android.content.Intent parseIntent(android.content.res.Resources,org.xmlpull.v1.XmlPullParser,android.util.AttributeSet)>
+<android.content.Intent: android.content.Intent parseUri(java.lang.String,int)>
 <android.content.Intent: android.content.Intent putExtra(java.lang.String,boolean)>
 <android.content.Intent: android.content.Intent putExtra(java.lang.String,byte)>
 <android.content.Intent: android.content.Intent putExtra(java.lang.String,char)>
@@ -298,6 +318,9 @@
 
 <org.apache.http.message.BasicNameValuePair: void <init>(java.lang.String,java.lang.String)>
 
+<org.apache.http.client.entity.UrlEncodedFormEntity: void <init>(java.util.List,java.lang.String)>
+<org.apache.http.client.entity.UrlEncodedFormEntity: void <init>(java.util.List)>
+
 <org.apache.http.entity.StringEntity: void <init>(java.lang.String)>
 <org.apache.http.entity.StringEntity: void <init>(java.lang.String,java.nio.charset.Charset)>
 <org.apache.http.entity.StringEntity: void <init>(java.lang.String,org.apache.http.entity.ContentType)>
@@ -305,6 +328,9 @@
 <org.apache.http.entity.StringEntity: void <init>(java.lang.String,java.lang.String,java.lang.String)>
 
 <org.apache.http.client.methods.HttpPost: void <init>(java.lang.String)>
+<org.apache.http.client.methods.HttpPost: void <init>(java.net.URI)>
+
+<org.apache.http.HttpEntityEnclosingRequest: void setEntity(org.apache.http.HttpEntity)>
 
 <java.util.Arrays: java.util.List asList(java.lang.Object[])>
 <java.util.Arrays: java.lang.Object[] copyOf(java.lang.Object[],int)>
@@ -340,3 +366,54 @@
 <java.nio.ByteBuffer: java.nio.ByteBuffer putLong(int,long)>
 <java.nio.ByteBuffer: java.nio.ByteBuffer putShort(short)>
 <java.nio.ByteBuffer: java.nio.ByteBuffer putShort(int,short)>
+
+~<android.content.ContextWrapper: android.content.Context getApplicationContext()>
+
+<java.util.regex.Pattern: java.util.regex.Matcher matcher(java.lang.CharSequence)>
+
+<java.lang.ProcessBuilder: java.lang.ProcessBuilder command(java.lang.String[])>
+
+<android.os.Parcel: void writeArray(java.lang.Object[])>
+<android.os.Parcel: void writeBinderArray(android.os.IBinder[])>
+<android.os.Parcel: void writeBinderList(java.util.List)>
+<android.os.Parcel: void writeBooleanArray(boolean[])>
+<android.os.Parcel: void writeBundle(android.os.Bundle)>
+<android.os.Parcel: void writeByte(byte)>
+<android.os.Parcel: void writeByteArray(byte[],int,int)>
+<android.os.Parcel: void writeByteArray(byte[])>
+<android.os.Parcel: void writeCharArray(char[])>
+<android.os.Parcel: void writeDouble(double)>
+<android.os.Parcel: void writeDoubleArray(double[])>
+<android.os.Parcel: void writeException(java.lang.Exception)>
+<android.os.Parcel: void writeFileDescriptor(java.io.FileDescriptor)>
+<android.os.Parcel: void writeFloat(float)>
+<android.os.Parcel: void writeFloatArray(float[])>
+<android.os.Parcel: void writeInt(int)>
+<android.os.Parcel: void writeIntArray(int[])>
+<android.os.Parcel: void writeInterfaceToken(java.lang.String)>
+<android.os.Parcel: void writeList(java.util.List)>
+<android.os.Parcel: void writeLong(long)>
+<android.os.Parcel: void writeLongArray(long[])>
+<android.os.Parcel: void writeMap(java.util.Map)>
+<android.os.Parcel: void writeParcelable(android.os.Parcelable,int)>
+<android.os.Parcel: void writeParcelableArray(android.os.Parcelable[],int)>
+<android.os.Parcel: void writePersistableBundle(android.os.PersistableBundle)>
+<android.os.Parcel: void writeSerializable(java.io.Serializable)>
+<android.os.Parcel: void writeSize(android.util.Size)>
+<android.os.Parcel: void writeSizeF(android.util.SizeF)>
+<android.os.Parcel: void writeSparseArray(android.util.SparseArray)>
+<android.os.Parcel: void writeSparseBooleanArray(android.util.SparseBooleanArray)>
+<android.os.Parcel: void writeString(java.lang.String)>
+<android.os.Parcel: void writeStringArray(java.lang.String[])>
+<android.os.Parcel: void writeStringList(java.util.List)>
+<android.os.Parcel: void writeStrongBinder(android.os.IBinder)>
+<android.os.Parcel: void writeStrongInterface(android.os.IInterface)>
+<android.os.Parcel: void writeTypedArray(android.os.Parcelable[],int)>
+<android.os.Parcel: void writeTypedList(java.util.List)>
+<android.os.Parcel: void writeValue(java.lang.Object)>
+<android.os.Parcel: void unmarshall(byte[],int,int)>
+
+<android.graphics.Point: void <init>(int,int)>
+<android.graphics.Point: void <init>(android.graphics.Point)>
+<android.graphics.PointF: void <init>(float,float)>
+<android.graphics.PointF: void <init>(android.graphics.Point)>
