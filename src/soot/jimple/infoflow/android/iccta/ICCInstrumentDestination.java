@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import soot.Body;
+import soot.IntType;
 import soot.Local;
 import soot.Modifier;
 import soot.PatchingChain;
@@ -18,7 +19,10 @@ import soot.Unit;
 import soot.Value;
 import soot.VoidType;
 import soot.javaToJimple.LocalGenerator;
+import soot.jimple.AssignStmt;
 import soot.jimple.IdentityStmt;
+import soot.jimple.IntConstant;
+import soot.jimple.InvokeExpr;
 import soot.jimple.Jimple;
 import soot.jimple.NullConstant;
 import soot.jimple.ReturnStmt;
@@ -447,10 +451,28 @@ public class ICCInstrumentDestination
     	
     	Body body = mainMethod.getActiveBody();
     	
+    	//For the purpose of confusion dex optimization (because of the strategy of generating dummyMain method)
+    	boolean firstStmt = true;
+    	
     	PatchingChain<Unit> units = body.getUnits();
     	for (Iterator<Unit> iter = units.snapshotIterator(); iter.hasNext(); )
     	{
     		Stmt stmt = (Stmt) iter.next();
+    		
+    		if (stmt instanceof IdentityStmt)
+    		{
+    			continue;
+    		}
+    		   		
+    		if (firstStmt)
+    		{
+    			firstStmt = false;
+    			AssignStmt aStmt = (AssignStmt) stmt;
+    			SootMethod fuzzyMe = generateFuzzyMethod(compSootClass);
+    			InvokeExpr invokeExpr = Jimple.v().newVirtualInvokeExpr(body.getThisLocal(), fuzzyMe.makeRef());
+    			Unit assignU = Jimple.v().newAssignStmt(aStmt.getLeftOp(), invokeExpr);
+    			units.insertAfter(assignU, aStmt);
+    		}
     		
     		if (! stmt.containsInvokeExpr())
     		{
@@ -489,6 +511,30 @@ public class ICCInstrumentDestination
     		}
     	}
     }
+    
+    public SootMethod generateFuzzyMethod(SootClass sootClass)
+	{
+    	String name = "fuzzyMe";
+	    List<Type> parameters = new ArrayList<Type>();
+	    Type returnType = IntType.v();
+	    int modifiers = Modifier.PUBLIC;
+	    SootMethod fuzzyMeMethod = new SootMethod(name, parameters, returnType, modifiers);
+	    sootClass.addMethod(fuzzyMeMethod);
+	    
+	    {
+	    	Body b = Jimple.v().newBody(fuzzyMeMethod);
+	    	fuzzyMeMethod.setActiveBody(b);
+	    	LocalGenerator lg = new LocalGenerator(b);
+	        Local thisLocal = lg.generateLocal(sootClass.getType());
+	        Unit thisU = Jimple.v().newIdentityStmt(thisLocal, 
+	                Jimple.v().newThisRef(sootClass.getType()));
+	        Unit returnU = Jimple.v().newReturnStmt(IntConstant.v(1));
+	        b.getUnits().add(thisU);
+	        b.getUnits().add(returnU);
+	    }
+	        
+	    return fuzzyMeMethod;
+	}
     
     public void assignIntent(SootClass hostComponent, SootMethod method, int indexOfArgs)
     {
