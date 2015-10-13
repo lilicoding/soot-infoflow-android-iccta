@@ -126,6 +126,7 @@ public class ToDBResultHelper {
 		}
 	}
 	
+	/*
 	public static void toDB(InfoflowResults results, IInfoflowCFG cfg, String pkgName) throws Exception
 	{
 		List<List<StmtTable>> paths = new ArrayList<List<StmtTable>>();
@@ -206,7 +207,7 @@ public class ToDBResultHelper {
 		}
 		
 		write(paths, pkgName);
-	}
+	}*/
 
 	public static void toDBForExtras() throws Exception
 	{
