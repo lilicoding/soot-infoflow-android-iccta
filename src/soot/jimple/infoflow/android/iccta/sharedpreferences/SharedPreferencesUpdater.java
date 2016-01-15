@@ -100,8 +100,8 @@ public class SharedPreferencesUpdater implements JimpleUpdater
 			}
 		}
 		
-		System.out.println(fieldNames);
-		System.out.println(fieldStmts);
+		//System.out.println(fieldNames);
+		//System.out.println(fieldStmts);
 		
 		SharedPreferencesHelper spHelper = new SharedPreferencesHelper();
 		spHelper.fieldGenerater(fieldNames);

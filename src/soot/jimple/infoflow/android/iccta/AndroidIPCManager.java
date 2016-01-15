@@ -119,7 +119,7 @@ public class AndroidIPCManager extends MethodBasedIPCManager {
         {
         	if (iccProviderStr == null || iccProviderStr.isEmpty())
         	{
-        		System.out.println("epicc provider is used.");
+        		//System.out.println("epicc provider is used.");
         		iccProvider = new ICCLinksEpiccProvider();
         	}
         	else if (iccProviderStr.equals("configfile"))
@@ -129,7 +129,7 @@ public class AndroidIPCManager extends MethodBasedIPCManager {
         	}
         	else
         	{
-        		System.out.println("epicc provider is used.");
+        		//System.out.println("epicc provider is used.");
         		iccProvider = new ICCLinksEpiccProvider();
         	}
 

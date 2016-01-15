@@ -101,7 +101,7 @@ public class ExtraExtractor extends JimpleBodyUpdater
 			putExtras.put(methodSignature, putKeys);
 		}
 		
-		System.out.println(getExtras);
-		System.out.println(putExtras);
+		//System.out.println(getExtras);
+		//System.out.println(putExtras);
 	}
 }
