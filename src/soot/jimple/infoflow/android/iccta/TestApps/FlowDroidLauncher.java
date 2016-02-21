@@ -37,6 +37,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import soot.SootMethod;
 import soot.jimple.Stmt;
+import soot.jimple.infoflow.InfoflowConfiguration.CodeEliminationMode;
 import soot.jimple.infoflow.InfoflowManager;
 import soot.jimple.infoflow.InfoflowConfiguration.CallgraphAlgorithm;
 import soot.jimple.infoflow.android.InfoflowAndroidConfiguration;
@@ -526,6 +527,8 @@ public class FlowDroidLauncher {
 			}
 			
 			// Set configuration object
+			config.setCodeEliminationMode(CodeEliminationMode.NoCodeElimination);
+			
 			app.setConfig(config);
 			
 			final ITaintPropagationWrapper taintWrapper;
